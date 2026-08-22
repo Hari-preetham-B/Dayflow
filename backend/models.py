@@ -316,3 +316,38 @@ class SalaryAuditLog(db.Model):
         }
 
 
+class Notification(db.Model):
+    __tablename__ = 'notifications'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.String(100), db.ForeignKey('users.id'), nullable=False)
+    title = db.Column(db.String(255), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    type = db.Column(db.String(50), default='system', nullable=False)  # 'leave', 'document', 'salary', 'system'
+    is_read = db.Column(db.Boolean, default=False, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship('User', backref=db.backref('notifications', lazy=True, cascade='all, delete-orphan'))
+
+    def __init__(self, user_id=None, title=None, message=None, type='system', is_read=False, created_at=None, **kwargs):
+        super(Notification, self).__init__(**kwargs)
+        if user_id is not None: self.user_id = user_id
+        if title is not None: self.title = title
+        if message is not None: self.message = message
+        if type is not None: self.type = type
+        self.is_read = is_read
+        if created_at is not None: self.created_at = created_at
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'title': self.title,
+            'message': self.message,
+            'type': self.type,
+            'is_read': self.is_read,
+            'created_at': self.created_at.isoformat() if self.created_at else None
+        }
+
+
+

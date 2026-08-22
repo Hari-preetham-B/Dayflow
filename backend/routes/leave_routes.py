@@ -107,6 +107,18 @@ def apply_leave():
     db.session.add(leave_req)
     db.session.commit()
 
+    # Trigger notification to Admins
+    try:
+        from routes.notification_routes import notify_admins
+        emp_name = req_user.full_name or req_user.email
+        notify_admins(
+            title=f"New Leave Request from {emp_name}",
+            message=f"{emp_name} submitted a {leave_type} leave request from {start_date} to {end_date}.",
+            type='leave'
+        )
+    except Exception as e:
+        print(f"[NOTIFY ERROR] Leave apply trigger failed: {str(e)}")
+
     return jsonify({
         "message": "Leave request submitted successfully!",
         "leave_request": leave_req.to_dict()
@@ -275,6 +287,23 @@ def admin_review_leave(leave_id):
     db.session.commit()
 
     action_word = {'Approved': 'approved', 'Rejected': 'rejected', 'Revoked': 'revoked'}[new_status]
+
+    # Trigger notification to Employee
+    try:
+        from routes.notification_routes import create_notification
+        msg = f"Your {leave_req.leave_type} leave request ({leave_req.start_date} to {leave_req.end_date}) has been {action_word}."
+        if admin_comment:
+            msg += f" Remarks: {admin_comment}"
+
+        create_notification(
+            user_id=leave_req.user_id,
+            title=f"Leave Request {new_status}",
+            message=msg,
+            type='leave'
+        )
+    except Exception as e:
+        print(f"[NOTIFY ERROR] Leave review trigger failed: {str(e)}")
+
     return jsonify({
         "message": f"Leave request #{leave_id} has been {action_word} successfully",
         "leave_request": leave_req.to_dict()

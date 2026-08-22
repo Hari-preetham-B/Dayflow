@@ -165,6 +165,18 @@ def add_document(user_id):
     db.session.add(new_doc)
     db.session.commit()
 
+    # Trigger notification to Admins if uploaded by employee
+    try:
+        from routes.notification_routes import notify_admins
+        uploader_name = target_user.full_name or target_user.email
+        notify_admins(
+            title="New Document Uploaded",
+            message=f"{uploader_name} uploaded a new document: {document_name} ({body.get('document_type', 'General')}).",
+            type='document'
+        )
+    except Exception as e:
+        print(f"[NOTIFY ERROR] Document upload trigger failed: {str(e)}")
+
     return jsonify({"message": "Document uploaded successfully", "document": new_doc.to_dict()}), 201
 
 

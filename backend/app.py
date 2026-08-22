@@ -8,6 +8,7 @@ from routes.profile_routes import profile_bp
 from routes.attendance_routes import attendance_bp
 from routes.leave_routes import leave_bp
 from routes.salary_routes import salary_bp
+from routes.notification_routes import notification_bp
 
 def create_app():
     app = Flask(__name__)
@@ -26,6 +27,7 @@ def create_app():
     app.register_blueprint(attendance_bp)
     app.register_blueprint(leave_bp)
     app.register_blueprint(salary_bp)
+    app.register_blueprint(notification_bp)
 
     @app.route('/api/health', methods=['GET'])
     def health_check():
