@@ -6,6 +6,8 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import EmployeeDashboard from './pages/EmployeeDashboard'
 import AdminDashboard from './pages/AdminDashboard'
+import ProfilePage from './pages/ProfilePage'
+import AttendancePage from './pages/AttendancePage'
 
 export default function App() {
   return (
@@ -29,6 +31,33 @@ export default function App() {
             element={
               <ProtectedRoute adminOnly={true}>
                 <AdminDashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/profile/:userId" 
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/attendance" 
+            element={
+              <ProtectedRoute>
+                <AttendancePage />
               </ProtectedRoute>
             } 
           />

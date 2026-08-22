@@ -108,9 +108,9 @@ export default function EmployeeDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             
             {/* 1. Profile Card */}
-            <div 
-              onClick={() => setActiveModal('profile')}
-              className="hr-glass-card hr-glass-card-hover rounded-2xl p-6 cursor-pointer border border-slate-800 flex flex-col justify-between group"
+            <Link 
+              to="/profile"
+              className="hr-glass-card hr-glass-card-hover rounded-2xl p-6 border border-slate-800 flex flex-col justify-between group cursor-pointer"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -120,7 +120,7 @@ export default function EmployeeDashboard() {
                   <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-indigo-400 transition-colors" />
                 </div>
                 <h3 className="text-base font-bold text-white mb-1">My Profile</h3>
-                <p className="text-xs text-slate-400 mb-4">Personal details, role info, and employee credentials.</p>
+                <p className="text-xs text-slate-400 mb-4">View & edit personal details, job role, and attached documents.</p>
               </div>
 
               <div className="pt-3 border-t border-slate-800/80 space-y-1">
@@ -133,11 +133,11 @@ export default function EmployeeDashboard() {
                   <span className="font-mono text-indigo-300">{empId}</span>
                 </div>
               </div>
-            </div>
+            </Link>
 
             {/* 2. Attendance Card */}
-            <div 
-              onClick={() => setActiveModal('attendance')}
+            <Link 
+              to="/attendance"
               className="hr-glass-card hr-glass-card-hover rounded-2xl p-6 cursor-pointer border border-slate-800 flex flex-col justify-between group"
             >
               <div>
@@ -148,20 +148,20 @@ export default function EmployeeDashboard() {
                   <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-teal-400 transition-colors" />
                 </div>
                 <h3 className="text-base font-bold text-white mb-1">Attendance Log</h3>
-                <p className="text-xs text-slate-400 mb-4">Track daily shifts, clock-in times, and monthly presence.</p>
+                <p className="text-xs text-slate-400 mb-4">Check-in, track daily shifts, and view monthly attendance logs.</p>
               </div>
 
               <div className="pt-3 border-t border-slate-800/80 space-y-1">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">This Month:</span>
-                  <span className="font-semibold text-emerald-400">Present 18/20 days</span>
+                  <span className="text-slate-400">Shift Actions:</span>
+                  <span className="font-semibold text-emerald-400">Check In / Out Portal</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Attendance Rate:</span>
-                  <span className="font-semibold text-teal-300">90.0%</span>
+                  <span className="text-slate-400">Attendance Status:</span>
+                  <span className="font-mono text-teal-300">Live Tracker</span>
                 </div>
               </div>
-            </div>
+            </Link>
 
             {/* 3. Leave Requests Card */}
             <div 

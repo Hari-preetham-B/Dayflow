@@ -14,7 +14,8 @@ import {
   Search, 
   Sparkles,
   RefreshCw,
-  Award
+  Award,
+  User
 } from 'lucide-react'
 
 export default function AdminDashboard() {
@@ -100,7 +101,15 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <Link
+              to="/attendance"
+              className="px-3.5 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors border border-indigo-500/30"
+            >
+              <Clock className="w-4 h-4" />
+              <span>Attendance Portal</span>
+            </Link>
+
             <Link
               to="/dashboard"
               className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-colors border border-slate-700"
@@ -300,9 +309,17 @@ export default function AdminDashboard() {
                             </span>
                           )}
                         </td>
-                        <td className="px-4 py-4 text-right">
+                        <td className="px-4 py-4 text-right flex items-center justify-end gap-2">
+                          <Link
+                            to={`/profile/${u.id}`}
+                            className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg font-semibold text-[11px] border border-slate-700 transition-all inline-flex items-center gap-1"
+                          >
+                            <User className="w-3.5 h-3.5 text-indigo-400" />
+                            <span>Profile</span>
+                          </Link>
+
                           {u.role === 'admin' ? (
-                            <span className="text-slate-500 italic text-[11px]">Already Admin</span>
+                            <span className="text-slate-500 italic text-[11px] ml-1">Admin</span>
                           ) : (
                             <button
                               onClick={() => handlePromote(u)}
@@ -314,7 +331,7 @@ export default function AdminDashboard() {
                               ) : (
                                 <>
                                   <UserPlus className="w-3.5 h-3.5" />
-                                  <span>Promote to Admin</span>
+                                  <span>Promote</span>
                                 </>
                               )}
                             </button>
