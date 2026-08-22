@@ -1,6 +1,4 @@
-import React, { useState } from 'react'
-import { useAuth } from '../context/AuthContext'
-import { Link } from 'react-router-dom'
+import NotificationDrawer from '../components/NotificationDrawer'
 import { 
   User, 
   Clock, 
@@ -14,6 +12,7 @@ import {
   Sparkles,
   ChevronRight,
   DollarSign,
+  BarChart3,
   X
 } from 'lucide-react'
 
@@ -44,18 +43,29 @@ export default function EmployeeDashboard() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <Link
+              to="/analytics"
+              className="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-all"
+              title="View Analytics & Reports"
+            >
+              <BarChart3 className="w-4 h-4 text-indigo-400" />
+              <span className="hidden sm:inline">Analytics</span>
+            </Link>
+
             {isAdmin && (
               <Link
                 to="/admin"
                 className="px-3.5 py-1.5 rounded-lg bg-indigo-600/10 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-600/20 text-xs font-semibold flex items-center gap-1.5 transition-all"
               >
                 <ShieldAlert className="w-4 h-4 text-indigo-400" />
-                <span>Switch to HR Admin View</span>
+                <span className="hidden md:inline">Switch to HR Admin View</span>
               </Link>
             )}
 
-            <div className="flex items-center gap-3 border-l border-slate-800 pl-4">
+            <NotificationDrawer />
+
+            <div className="flex items-center gap-3 border-l border-slate-800 pl-3">
               <div className="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-sm font-bold text-indigo-400">
                 {employeeName.substring(0, 2).toUpperCase()}
               </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { Link } from 'react-router-dom'
+import NotificationDrawer from '../components/NotificationDrawer'
 import { 
   Users, 
   UserCheck, 
@@ -16,6 +17,7 @@ import {
   RefreshCw,
   Award,
   DollarSign,
+  BarChart3,
   User
 } from 'lucide-react'
 
@@ -85,7 +87,7 @@ export default function AdminDashboard() {
   const employeeCount = usersList.filter(u => u.role === 'employee').length
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
       
       {/* Admin Header */}
       <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
@@ -108,7 +110,7 @@ export default function AdminDashboard() {
               className="px-3.5 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors border border-indigo-500/30"
             >
               <Clock className="w-4 h-4" />
-              <span>Attendance Portal</span>
+              <span className="hidden md:inline">Attendance Portal</span>
             </Link>
 
             <Link
@@ -116,7 +118,7 @@ export default function AdminDashboard() {
               className="px-3.5 py-1.5 rounded-lg bg-sky-600/20 hover:bg-sky-600 text-sky-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors border border-sky-500/30"
             >
               <CalendarCheck className="w-4 h-4" />
-              <span>Leave Approvals</span>
+              <span className="hidden md:inline">Leave Approvals</span>
             </Link>
 
             <Link
@@ -124,15 +126,25 @@ export default function AdminDashboard() {
               className="px-3.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors border border-emerald-500/30"
             >
               <DollarSign className="w-4 h-4" />
-              <span>Salary Management</span>
+              <span className="hidden md:inline">Salary</span>
             </Link>
+
+            <Link
+              to="/analytics"
+              className="px-3.5 py-1.5 rounded-lg bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors border border-purple-500/30"
+            >
+              <BarChart3 className="w-4 h-4" />
+              <span className="hidden sm:inline">Analytics</span>
+            </Link>
+
+            <NotificationDrawer />
 
             <Link
               to="/dashboard"
               className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-colors border border-slate-700"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Back to Employee Workspace</span>
+              <span className="hidden lg:inline">Back to Employee Workspace</span>
             </Link>
           </div>
         </div>

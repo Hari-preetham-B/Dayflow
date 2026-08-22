@@ -10,6 +10,7 @@ import ProfilePage from './pages/ProfilePage'
 import AttendancePage from './pages/AttendancePage'
 import LeavePage from './pages/LeavePage'
 import SalaryPage from './pages/SalaryPage'
+import AnalyticsPage from './pages/AnalyticsPage'
 
 export default function App() {
   return (
@@ -78,6 +79,15 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <SalaryPage />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/analytics" 
+            element={
+              <ProtectedRoute>
+                <AnalyticsPage />
               </ProtectedRoute>
             } 
           />
