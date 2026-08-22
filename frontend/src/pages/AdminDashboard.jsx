@@ -15,6 +15,7 @@ import {
   Sparkles,
   RefreshCw,
   Award,
+  DollarSign,
   User
 } from 'lucide-react'
 
@@ -116,6 +117,14 @@ export default function AdminDashboard() {
             >
               <CalendarCheck className="w-4 h-4" />
               <span>Leave Approvals</span>
+            </Link>
+
+            <Link
+              to="/salary"
+              className="px-3.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors border border-emerald-500/30"
+            >
+              <DollarSign className="w-4 h-4" />
+              <span>Salary Management</span>
             </Link>
 
             <Link

@@ -13,6 +13,7 @@ import {
   BadgeCheck, 
   Sparkles,
   ChevronRight,
+  DollarSign,
   X
 } from 'lucide-react'
 
@@ -187,6 +188,34 @@ export default function EmployeeDashboard() {
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-slate-400">Status:</span>
                   <span className="font-semibold text-amber-400">View Pending Requests</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* 4. Salary & Compensation Card */}
+            <Link 
+              to="/salary"
+              className="hr-glass-card hr-glass-card-hover rounded-2xl p-6 cursor-pointer border border-slate-800 flex flex-col justify-between group"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <DollarSign className="w-6 h-6 text-emerald-400" />
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-emerald-400 transition-colors" />
+                </div>
+                <h3 className="text-base font-bold text-white mb-1">Salary & Compensation</h3>
+                <p className="text-xs text-slate-400 mb-4">View your basic pay, allowances, deductions, and monthly net pay.</p>
+              </div>
+
+              <div className="pt-3 border-t border-slate-800/80 space-y-1">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-slate-400">Access Mode:</span>
+                  <span className="font-semibold text-emerald-400">Read-Only View</span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-slate-400">Structure:</span>
+                  <span className="font-mono text-emerald-300">Basic + Allow - Ded</span>
                 </div>
               </div>
             </Link>
