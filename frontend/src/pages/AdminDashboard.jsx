@@ -111,6 +111,14 @@ export default function AdminDashboard() {
             </Link>
 
             <Link
+              to="/leave"
+              className="px-3.5 py-1.5 rounded-lg bg-sky-600/20 hover:bg-sky-600 text-sky-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors border border-sky-500/30"
+            >
+              <CalendarCheck className="w-4 h-4" />
+              <span>Leave Approvals</span>
+            </Link>
+
+            <Link
               to="/dashboard"
               className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-colors border border-slate-700"
             >

@@ -8,6 +8,7 @@ import EmployeeDashboard from './pages/EmployeeDashboard'
 import AdminDashboard from './pages/AdminDashboard'
 import ProfilePage from './pages/ProfilePage'
 import AttendancePage from './pages/AttendancePage'
+import LeavePage from './pages/LeavePage'
 
 export default function App() {
   return (
@@ -58,6 +59,15 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <AttendancePage />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/leave" 
+            element={
+              <ProtectedRoute>
+                <LeavePage />
               </ProtectedRoute>
             } 
           />

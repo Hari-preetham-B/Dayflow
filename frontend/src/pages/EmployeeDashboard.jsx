@@ -164,8 +164,8 @@ export default function EmployeeDashboard() {
             </Link>
 
             {/* 3. Leave Requests Card */}
-            <div 
-              onClick={() => setActiveModal('leave')}
+            <Link 
+              to="/leave"
               className="hr-glass-card hr-glass-card-hover rounded-2xl p-6 cursor-pointer border border-slate-800 flex flex-col justify-between group"
             >
               <div>
@@ -176,20 +176,20 @@ export default function EmployeeDashboard() {
                   <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-sky-400 transition-colors" />
                 </div>
                 <h3 className="text-base font-bold text-white mb-1">Leave Requests</h3>
-                <p className="text-xs text-slate-400 mb-4">Apply for time off, view balances and approval status.</p>
+                <p className="text-xs text-slate-400 mb-4">Apply for time off, track approvals, and manage leave history.</p>
               </div>
 
               <div className="pt-3 border-t border-slate-800/80 space-y-1">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Pending Requests:</span>
-                  <span className="font-semibold text-amber-400">2 Requests</span>
+                  <span className="text-slate-400">Actions:</span>
+                  <span className="font-semibold text-sky-400">Apply & Track Leave</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Paid Leave Balance:</span>
-                  <span className="font-semibold text-sky-300">12 Days</span>
+                  <span className="text-slate-400">Status:</span>
+                  <span className="font-semibold text-amber-400">View Pending Requests</span>
                 </div>
               </div>
-            </div>
+            </Link>
 
             {/* 4. Logout Card */}
             <div 
