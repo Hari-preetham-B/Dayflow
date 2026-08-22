@@ -136,3 +136,55 @@ class EmployeeDocument(db.Model):
             'file_size': self.file_size or '1.2 MB',
             'uploaded_at': self.uploaded_at.isoformat() if self.uploaded_at else None
         }
+
+
+class Attendance(db.Model):
+    __tablename__ = 'attendance'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.String(100), db.ForeignKey('users.id'), nullable=False)
+    date = db.Column(db.String(20), nullable=False)  # 'YYYY-MM-DD'
+    check_in = db.Column(db.DateTime, nullable=True)
+    check_out = db.Column(db.DateTime, nullable=True)
+    status = db.Column(db.String(50), nullable=False, default='Present')  # 'Present', 'Absent', 'Half-day', 'Leave'
+    notes = db.Column(db.Text, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    user = db.relationship('User', backref=db.backref('attendances', lazy=True, cascade="all, delete-orphan"))
+
+    def __init__(self, user_id=None, date=None, check_in=None, check_out=None, 
+                 status='Present', notes=None, created_at=None, **kwargs):
+        super(Attendance, self).__init__(**kwargs)
+        if user_id is not None: self.user_id = user_id
+        if date is not None: self.date = date
+        if check_in is not None: self.check_in = check_in
+        if check_out is not None: self.check_out = check_out
+        if status is not None: self.status = status
+        if notes is not None: self.notes = notes
+        if created_at is not None: self.created_at = created_at
+
+    def to_dict(self):
+        duration_hours = 0
+        if self.check_in and self.check_out:
+            diff = self.check_out - self.check_in
+            duration_hours = round(diff.total_seconds() / 3600.0, 2)
+        elif self.check_in:
+            diff = datetime.utcnow() - self.check_in
+            duration_hours = round(diff.total_seconds() / 3600.0, 2)
+
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'date': self.date,
+            'check_in': self.check_in.isoformat() if self.check_in else None,
+            'check_out': self.check_out.isoformat() if self.check_out else None,
+            'status': self.status,
+            'notes': self.notes,
+            'duration_hours': duration_hours,
+            'user_name': self.user.full_name or self.user.email if self.user else None,
+            'employee_id': self.user.employee_id if self.user else None,
+            'department': self.user.department if self.user else None,
+            'created_at': self.created_at.isoformat() if self.created_at else None
+        }
+

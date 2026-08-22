@@ -5,6 +5,7 @@ from models import db
 from routes.auth_routes import auth_bp
 from routes.admin_routes import admin_bp
 from routes.profile_routes import profile_bp
+from routes.attendance_routes import attendance_bp
 
 def create_app():
     app = Flask(__name__)
@@ -20,6 +21,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(profile_bp)
+    app.register_blueprint(attendance_bp)
 
     @app.route('/api/health', methods=['GET'])
     def health_check():
