@@ -1,7 +1,7 @@
 <div align="center">
   <a name="top"></a>
-  <h1>⚡ Dayflow — Human Resource Management System (HRMS)</h1>
-  <p><strong>Every workday, perfectly aligned.</strong></p>
+  <h1><font color="#4F46E5">⚡ Dayflow</font> — <font color="#7C3AED">Human Resource Management System (HRMS)</font></h1>
+  <p><strong><font color="#06B6D4">Every workday, perfectly aligned.</font></strong></p>
 
   <p>
     <img src="https://img.shields.io/badge/React-19.2.8-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19">
@@ -295,7 +295,7 @@ npm run dev
 ---
 
 <div align="center">
-  <p><strong>Dayflow — Human Resource Management System (HRMS)</strong></p>
-  <p>Built with ❤️ for <strong>ODOOXNMIT</strong></p>
-  <p><a href="#top">Back to top ⬆️</a></p>
+  <p><font color="#4F46E5"><strong>Dayflow</strong></font> — <font color="#7C3AED">Human Resource Management System (HRMS)</font></p>
+  <p><font color="#10B981">Built with ❤️ for <strong>ODOOXNMIT</strong></font></p>
+  <p><a href="#top"><img src="https://img.shields.io/badge/%E2%AD%86%EF%B8%8F-Back_to_Top-4F46E5?style=for-the-badge" alt="Back to Top"></a></p>
 </div>
