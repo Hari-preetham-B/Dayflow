@@ -34,18 +34,28 @@ def sync_user():
     # Check if user exists in Flask database
     existing_user = User.query.get(supabase_id)
 
+    # Atomically check if any Admin user exists in the database
+    try:
+        existing_admin = User.query.filter_by(role='admin').with_for_update().first()
+    except Exception:
+        existing_admin = User.query.filter_by(role='admin').first()
+
     if existing_user:
-        # Update employee_id if provided and not set
+        # Update employee_id if provided and changed
         if body.get("employee_id") and existing_user.employee_id != body.get("employee_id"):
             existing_user.employee_id = body.get("employee_id")
-            db.session.commit()
+        
+        # Self-Correction: If no admin exists in the database yet, upgrade this first valid user to Admin!
+        if existing_admin is None and existing_user.role != 'admin':
+            existing_user.role = 'admin'
+            existing_user.department = "HR & Operations"
+            existing_user.title = "HR Manager"
+
+        db.session.commit()
         return jsonify({"user": existing_user.to_dict(), "is_new": False}), 200
 
-    # If new user: check total user count in database
-    total_users = User.query.count()
-    
-    # First user ever registered automatically becomes Admin/HR Officer!
-    assigned_role = 'admin' if total_users == 0 else 'employee'
+    # If new user: assign 'admin' if no admin currently exists in the system, otherwise 'employee'
+    assigned_role = 'admin' if existing_admin is None else 'employee'
 
     # Handle collision for employee_id if any
     duplicate_emp = User.query.filter_by(employee_id=employee_id_input).first()
