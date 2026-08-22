@@ -15,8 +15,8 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Enable CORS for frontend application
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    # Enable CORS for frontend application (supports http://localhost:3000 and http://localhost:5173)
+    CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
     # Initialize SQLAlchemy database
     db.init_app(app)
@@ -38,6 +38,10 @@ def create_app():
             "service": "Dayflow HRMS Backend API",
             "database": "connected"
         }), 200
+
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        return jsonify({"error": "Internal Server Error", "details": str(e)}), 500
 
     # Auto-create tables if they don't exist yet against real database
     with app.app_context():
