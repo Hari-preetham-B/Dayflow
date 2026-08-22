@@ -27,13 +27,20 @@ def create_app():
             "database": "connected"
         }), 200
 
-    # Auto-create tables if they don't exist yet
+    # Auto-create tables if they don't exist yet against real database
     with app.app_context():
         try:
             db.create_all()
-            print("Database tables verified/created successfully.")
+            from sqlalchemy import inspect
+            inspector = inspect(db.engine)
+            tables = inspector.get_table_names()
+            print("==================================================")
+            print(f"[DATABASE STARTUP] Connected to Database Host: {db.engine.url.host}")
+            print(f"[DATABASE STARTUP] Database Name: {db.engine.url.database}")
+            print(f"[DATABASE STARTUP] Tables in Supabase Postgres: {tables}")
+            print("==================================================")
         except Exception as e:
-            print(f"Warning during database initialization: {e}")
+            print(f"[DATABASE STARTUP ERROR] Failed to initialize database: {e}")
 
     return app
 

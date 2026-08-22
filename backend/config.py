@@ -7,9 +7,7 @@ load_dotenv(os.path.join(basedir, '.env'))
 
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "dayflow-default-secret-key")
-    db_url = os.getenv("DATABASE_URL")
-    # Use Postgres if provided, otherwise SQLite
-    SQLALCHEMY_DATABASE_URI = db_url if db_url else f"sqlite:///{os.path.join(basedir, 'dayflow.db')}"
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     SUPABASE_URL = os.getenv("SUPABASE_URL")
