@@ -14,6 +14,23 @@ class User(db.Model):
     title = db.Column(db.String(100), default='Team Member')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    def __init__(self, id=None, email=None, employee_id=None, role='employee', department='General', title='Team Member', created_at=None, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if id is not None:
+            self.id = id
+        if email is not None:
+            self.email = email
+        if employee_id is not None:
+            self.employee_id = employee_id
+        if role is not None:
+            self.role = role
+        if department is not None:
+            self.department = department
+        if title is not None:
+            self.title = title
+        if created_at is not None:
+            self.created_at = created_at
+
     def to_dict(self):
         return {
             'id': self.id,
