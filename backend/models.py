@@ -289,6 +289,17 @@ class SalaryAuditLog(db.Model):
     user = db.relationship('User', foreign_keys=[user_id], backref=db.backref('salary_audits', lazy=True))
     actor = db.relationship('User', foreign_keys=[changed_by])
 
+    def __init__(self, salary_structure_id=None, user_id=None, changed_by=None, 
+                 action='CREATE', old_values=None, new_values=None, changed_at=None, **kwargs):
+        super(SalaryAuditLog, self).__init__(**kwargs)
+        if salary_structure_id is not None: self.salary_structure_id = salary_structure_id
+        if user_id is not None: self.user_id = user_id
+        if changed_by is not None: self.changed_by = changed_by
+        if action is not None: self.action = action
+        if old_values is not None: self.old_values = old_values
+        if new_values is not None: self.new_values = new_values
+        if changed_at is not None: self.changed_at = changed_at
+
     def to_dict(self):
         return {
             'id': self.id,
