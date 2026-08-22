@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { ShieldCheck, UserCheck, Mail, Lock, IdCard, AlertCircle, CheckCircle2, XCircle, ArrowRight } from 'lucide-react'
+import { ShieldCheck, Mail, Lock, IdCard, AlertCircle, CheckCircle2, XCircle, ArrowRight } from 'lucide-react'
 
 export default function SignUp() {
   const [employeeId, setEmployeeId] = useState('')

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { 
@@ -6,23 +6,19 @@ import {
   CheckCircle2, 
   LogOut, 
   Calendar, 
-  TrendingUp, 
   AlertCircle, 
   UserCheck, 
   UserX, 
-  FileText, 
   Filter, 
   ArrowLeft, 
   Edit3, 
   X,
   Search,
-  Building2,
-  Check,
-  Briefcase
+  Building2
 } from 'lucide-react'
 
 export default function AttendancePage() {
-  const { user, supabaseUser, getAuthHeader } = useAuth()
+  const { user, getAuthHeader } = useAuth()
   const isAdmin = user?.role === 'admin'
 
   // View mode tab: 'my' or 'admin'
@@ -85,20 +81,7 @@ export default function AttendancePage() {
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'
 
-  // Fetch today status & personal history
-  useEffect(() => {
-    fetchTodayStatus()
-    fetchMyAttendance()
-  }, [myMonth, myYear])
-
-  // Fetch admin records if activeTab === 'admin'
-  useEffect(() => {
-    if (activeTab === 'admin' && isAdmin) {
-      fetchAdminAttendance()
-    }
-  }, [activeTab, deptFilter, startDate, endDate])
-
-  const fetchTodayStatus = async () => {
+  const fetchTodayStatus = useCallback(async () => {
     try {
       const headers = await getAuthHeader()
       const res = await fetch(`${BACKEND_URL}/api/attendance/today`, { headers })
@@ -109,9 +92,9 @@ export default function AttendancePage() {
     } catch (err) {
       console.error('Error fetching today status:', err)
     }
-  }
+  }, [getAuthHeader, BACKEND_URL])
 
-  const fetchMyAttendance = async () => {
+  const fetchMyAttendance = useCallback(async () => {
     setLoading(true)
     try {
       const headers = await getAuthHeader()
@@ -126,9 +109,9 @@ export default function AttendancePage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [getAuthHeader, BACKEND_URL, myYear, myMonth])
 
-  const fetchAdminAttendance = async () => {
+  const fetchAdminAttendance = useCallback(async () => {
     setLoading(true)
     try {
       const headers = await getAuthHeader()
@@ -147,7 +130,20 @@ export default function AttendancePage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [getAuthHeader, BACKEND_URL, startDate, endDate, deptFilter])
+
+  // Fetch today status & personal history
+  useEffect(() => {
+    fetchTodayStatus()
+    fetchMyAttendance()
+  }, [fetchTodayStatus, fetchMyAttendance])
+
+  // Fetch admin records if activeTab === 'admin'
+  useEffect(() => {
+    if (activeTab === 'admin' && isAdmin) {
+      fetchAdminAttendance()
+    }
+  }, [activeTab, isAdmin, fetchAdminAttendance])
 
   // Handle Check In
   const handleCheckIn = async () => {

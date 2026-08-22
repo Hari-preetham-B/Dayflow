@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import {
@@ -55,17 +55,7 @@ export default function LeavePage() {
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'
 
-  useEffect(() => {
-    fetchMyLeaves()
-  }, [statusFilter])
-
-  useEffect(() => {
-    if (activeTab === 'admin' && isAdmin) {
-      fetchAdminLeaves()
-    }
-  }, [activeTab, adminStatusFilter])
-
-  const fetchMyLeaves = async () => {
+  const fetchMyLeaves = useCallback(async () => {
     setLoading(true)
     try {
       const headers = await getAuthHeader()
@@ -82,9 +72,9 @@ export default function LeavePage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [getAuthHeader, BACKEND_URL, statusFilter])
 
-  const fetchAdminLeaves = async () => {
+  const fetchAdminLeaves = useCallback(async () => {
     setLoading(true)
     try {
       const headers = await getAuthHeader()
@@ -100,7 +90,17 @@ export default function LeavePage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [getAuthHeader, BACKEND_URL, adminStatusFilter])
+
+  useEffect(() => {
+    fetchMyLeaves()
+  }, [fetchMyLeaves])
+
+  useEffect(() => {
+    if (activeTab === 'admin' && isAdmin) {
+      fetchAdminLeaves()
+    }
+  }, [activeTab, isAdmin, fetchAdminLeaves])
 
   // Submit leave application
   const handleApply = async (e) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { salaryApi } from '../lib/api'
@@ -12,7 +12,6 @@ import {
   Edit2,
   Trash2,
   History,
-  CheckCircle2,
   AlertCircle,
   X,
   Search,
@@ -59,14 +58,7 @@ export default function SalaryPage() {
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'
 
-  useEffect(() => {
-    fetchMySalary()
-    if (isAdmin) {
-      fetchAdminData()
-    }
-  }, [isAdmin])
-
-  const fetchMySalary = async () => {
+  const fetchMySalary = useCallback(async () => {
     setLoadingMy(true)
     try {
       const data = await salaryApi.getMySalary(getAuthHeader)
@@ -76,9 +68,9 @@ export default function SalaryPage() {
     } finally {
       setLoadingMy(false)
     }
-  }
+  }, [getAuthHeader])
 
-  const fetchAdminData = async () => {
+  const fetchAdminData = useCallback(async () => {
     setLoadingAdmin(true)
     try {
       const headers = await getAuthHeader()
@@ -99,7 +91,14 @@ export default function SalaryPage() {
     } finally {
       setLoadingAdmin(false)
     }
-  }
+  }, [getAuthHeader, BACKEND_URL])
+
+  useEffect(() => {
+    fetchMySalary()
+    if (isAdmin) {
+      fetchAdminData()
+    }
+  }, [isAdmin, fetchMySalary, fetchAdminData])
 
   // Live net pay calculation for modal form
   const computedNetPay = () => {
@@ -154,7 +153,7 @@ export default function SalaryPage() {
     }
   }
 
-  const handleDeleteSalary = async (emp, salaryId) => {
+  const handleDeleteSalary = async (emp) => {
     if (!confirm(`Delete salary structure for ${emp.full_name || emp.email}? This action will be logged in the audit trail.`)) return
     setActionLoading(true)
     setMessage({ type: '', text: '' })
@@ -405,7 +404,7 @@ export default function SalaryPage() {
                                   <button onClick={() => openCreateOrEditModal(emp, sal)} className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-all" title="Edit Salary">
                                     <Edit2 className="w-3.5 h-3.5" />
                                   </button>
-                                  <button onClick={() => handleDeleteSalary(emp, sal.id)} className="p-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-white rounded-lg transition-all" title="Delete Salary">
+                                  <button onClick={() => handleDeleteSalary(emp)} className="p-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-white rounded-lg transition-all" title="Delete Salary">
                                     <Trash2 className="w-3.5 h-3.5" />
                                   </button>
                                 </>
@@ -514,8 +513,8 @@ export default function SalaryPage() {
                 {auditLogs.map((log) => {
                   let oldVal = null
                   let newVal = null
-                  try { if (log.old_values) oldVal = JSON.parse(log.old_values) } catch (e) {}
-                  try { if (log.new_values) newVal = JSON.parse(log.new_values) } catch (e) {}
+                  try { if (log.old_values) oldVal = JSON.parse(log.old_values) } catch {}
+                  try { if (log.new_values) newVal = JSON.parse(log.new_values) } catch {}
 
                   return (
                     <div key={log.id} className="bg-slate-950 border border-slate-800 p-4 rounded-xl space-y-2">

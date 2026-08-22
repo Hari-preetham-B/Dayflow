@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { Link } from 'react-router-dom'
 import NotificationDrawer from '../components/NotificationDrawer'
 import { 
   Users, 
-  UserCheck, 
   ShieldAlert, 
   Clock, 
   CalendarCheck, 
@@ -13,7 +12,6 @@ import {
   XCircle, 
   UserPlus, 
   Search, 
-  Sparkles,
   RefreshCw,
   Award,
   DollarSign,
@@ -22,7 +20,7 @@ import {
 } from 'lucide-react'
 
 export default function AdminDashboard() {
-  const { userProfile, promoteUserToAdmin, session } = useAuth()
+  const { promoteUserToAdmin, session } = useAuth()
   const [usersList, setUsersList] = useState([])
   const [loadingUsers, setLoadingUsers] = useState(true)
   const [promotingId, setPromotingId] = useState(null)
@@ -33,7 +31,7 @@ export default function AdminDashboard() {
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     if (!session?.access_token) return
     setLoadingUsers(true)
     setErrorMsg('')
@@ -54,11 +52,11 @@ export default function AdminDashboard() {
     } finally {
       setLoadingUsers(false)
     }
-  }
+  }, [session, BACKEND_URL])
 
   useEffect(() => {
     fetchUsers()
-  }, [session])
+  }, [fetchUsers])
 
   const handlePromote = async (userToPromote) => {
     setPromotingId(userToPromote.id)
@@ -84,7 +82,6 @@ export default function AdminDashboard() {
   )
 
   const adminCount = usersList.filter(u => u.role === 'admin').length
-  const employeeCount = usersList.filter(u => u.role === 'employee').length
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">

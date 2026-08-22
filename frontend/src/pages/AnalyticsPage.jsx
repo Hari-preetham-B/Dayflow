@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { analyticsApi } from '../lib/api'
@@ -10,17 +10,10 @@ import {
   Clock,
   CalendarCheck,
   DollarSign,
-  Download,
   FileSpreadsheet,
   FileText,
-  TrendingUp,
-  TrendingDown,
   UserCheck,
-  Building2,
   Filter,
-  RefreshCw,
-  Sparkles,
-  PieChart,
   CheckCircle2,
   XCircle,
   AlertCircle
@@ -38,11 +31,7 @@ export default function AnalyticsPage() {
   const [exportingLeave, setExportingLeave] = useState(false)
   const [downloadingPdf, setDownloadingPdf] = useState(false)
 
-  useEffect(() => {
-    fetchDashboard()
-  }, [])
-
-  const fetchDashboard = async (sDate = startDate, eDate = endDate) => {
+  const fetchDashboard = useCallback(async (sDate = startDate, eDate = endDate) => {
     setLoading(true)
     try {
       const res = await analyticsApi.getDashboard(getAuthHeader, sDate, eDate)
@@ -52,7 +41,11 @@ export default function AnalyticsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [getAuthHeader, startDate, endDate])
+
+  useEffect(() => {
+    fetchDashboard()
+  }, [fetchDashboard])
 
   const handleApplyFilter = (e) => {
     e.preventDefault()

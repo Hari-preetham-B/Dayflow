@@ -124,22 +124,18 @@ export const AuthProvider = ({ children }) => {
 
   const promoteUserToAdmin = async (userId) => {
     if (!session?.access_token) return false
-    try {
-      const response = await fetch(`${BACKEND_URL}/api/admin/users/${userId}/promote`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`
-        }
-      })
-      if (!response.ok) {
-        const err = await response.json()
-        throw new Error(err.error || "Failed to promote user")
+    const response = await fetch(`${BACKEND_URL}/api/admin/users/${userId}/promote`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
       }
-      return await response.json()
-    } catch (e) {
-      throw e
+    })
+    if (!response.ok) {
+      const err = await response.json()
+      throw new Error(err.error || "Failed to promote user")
     }
+    return await response.json()
   }
 
   const getAuthHeader = async () => {
