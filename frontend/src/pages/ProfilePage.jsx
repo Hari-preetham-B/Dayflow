@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { profileApi } from '../lib/api'
@@ -54,38 +54,6 @@ export default function ProfilePage() {
   // Avatar Uploading State
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
 
-  // Fetch Profile & Manager list
-  useEffect(() => {
-    fetchProfile()
-    if (isAdmin) {
-      fetchManagers()
-    }
-  }, [targetId, currentUser])
-
-  const fetchProfile = async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      const data = await profileApi.getProfile(getAuthHeader, targetId)
-      setProfile(data.user)
-      populateForm(data.user)
-    } catch (err) {
-      console.error(err)
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const fetchManagers = async () => {
-    try {
-      const data = await profileApi.getManagers(getAuthHeader)
-      setManagers(data.managers || [])
-    } catch (err) {
-      console.error('Failed to fetch managers list:', err)
-    }
-  }
-
   const populateForm = (u) => {
     setFormData({
       full_name: u.full_name || '',
@@ -103,6 +71,38 @@ export default function ProfilePage() {
       avatar_url: u.avatar_url || ''
     })
   }
+
+  const fetchProfile = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await profileApi.getProfile(getAuthHeader, targetId)
+      setProfile(data.user)
+      populateForm(data.user)
+    } catch (err) {
+      console.error(err)
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [getAuthHeader, targetId])
+
+  const fetchManagers = useCallback(async () => {
+    try {
+      const data = await profileApi.getManagers(getAuthHeader)
+      setManagers(data.managers || [])
+    } catch (err) {
+      console.error('Failed to fetch managers list:', err)
+    }
+  }, [getAuthHeader])
+
+  // Fetch Profile & Manager list
+  useEffect(() => {
+    fetchProfile()
+    if (isAdmin) {
+      fetchManagers()
+    }
+  }, [fetchProfile, fetchManagers, isAdmin])
 
   // Handle Input Changes
   const handleChange = (e) => {

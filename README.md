@@ -121,13 +121,19 @@ Dayflow/
 
 ## ⚙️ Environment Configuration
 
+> [!CAUTION]
+> **Never commit real credentials to this repository.** All values below are placeholders.
+> If a real password was ever committed, rotate it immediately in the Supabase Dashboard → Database → Settings.
+
 ### 1. Backend (`backend/.env`)
 ```env
 FLASK_ENV=development
-SECRET_KEY=dayflow_super_secret_hrms_key_2026
-DATABASE_URL=postgresql://postgres.chvbqkggxbyvplfymumr:Haripreetham%40123@aws-0-ap-south-1.pooler.supabase.com:6543/postgres
-SUPABASE_URL=https://chvbqkggxbyvplfymumr.supabase.co
-SUPABASE_ANON_KEY=your_supabase_anon_key
+SECRET_KEY=change_me_to_a_random_secret
+DATABASE_URL=postgresql://postgres.xxxxxxxxxxxx:YOUR_PASSWORD@aws-0-REGION.pooler.supabase.com:6543/postgres
+SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
+SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
+SUPABASE_SECRET_KEY=your_supabase_secret_key
+ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
 
 # Brevo SMTP Configuration (Optional)
 SMTP_SERVER=smtp-relay.brevo.com
@@ -139,7 +145,7 @@ SENDER_EMAIL=no-reply@dayflow.com
 
 ### 2. Frontend (`frontend/.env`)
 ```env
-VITE_SUPABASE_URL=https://chvbqkggxbyvplfymumr.supabase.co
+VITE_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 VITE_BACKEND_URL=http://localhost:5000
 ```

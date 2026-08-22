@@ -95,7 +95,11 @@ def check_in():
 def check_out():
     """
     Record today's check-out timestamp.
-    Auto-derives status: 'Present' if duration >= 6 hours, 'Half-day' if < 6 hours.
+    Auto-derives attendance status based on worked hours:
+        - 'Present'  : worked hours >= 7.5
+        - 'Half-day'  : worked hours >= 4.0 and < 7.5
+        - 'Half-day'  : worked hours < 4.0 (spec defines no separate tier;
+                         keeping Half-day as the minimum recorded status)
     """
     req_supabase_id = request.supabase_user.get("id")
     req_user = User.query.get(req_supabase_id)
@@ -115,13 +119,14 @@ def check_out():
     now = datetime.utcnow()
     record.check_out = now
 
-    # Calculate shift duration
+    # Calculate shift duration and derive status per spec thresholds
     diff = now - record.check_in
     hours = diff.total_seconds() / 3600.0
 
-    if hours >= 6.0:
+    if hours >= 7.5:
         record.status = 'Present'
     else:
+        # Half-day for any duration under 7.5 hours (covers both 4-7.5h and <4h)
         record.status = 'Half-day'
 
     db.session.commit()

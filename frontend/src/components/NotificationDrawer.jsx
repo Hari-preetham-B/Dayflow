@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { notificationsApi } from '../lib/api'
 import {
@@ -9,7 +9,6 @@ import {
   FileText,
   DollarSign,
   Info,
-  X,
   Sparkles
 } from 'lucide-react'
 
@@ -22,12 +21,25 @@ export default function NotificationDrawer() {
 
   const dropdownRef = useRef(null)
 
+  const fetchNotifications = useCallback(async () => {
+    try {
+      setLoading(true)
+      const data = await notificationsApi.getMyNotifications(getAuthHeader)
+      setNotifications(data.notifications || [])
+      setUnreadCount(data.unread_count || 0)
+    } catch (err) {
+      console.error('Error fetching notifications:', err)
+    } finally {
+      setLoading(false)
+    }
+  }, [getAuthHeader])
+
   useEffect(() => {
     fetchNotifications()
     // Poll for new notifications every 30s
     const interval = setInterval(fetchNotifications, 30000)
     return () => clearInterval(interval)
-  }, [])
+  }, [fetchNotifications])
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -39,16 +51,6 @@ export default function NotificationDrawer() {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
-
-  const fetchNotifications = async () => {
-    try {
-      const data = await notificationsApi.getMyNotifications(getAuthHeader)
-      setNotifications(data.notifications || [])
-      setUnreadCount(data.unread_count || 0)
-    } catch (err) {
-      console.error('Error fetching notifications:', err)
-    }
-  }
 
   const handleMarkRead = async (id, e) => {
     e.stopPropagation()

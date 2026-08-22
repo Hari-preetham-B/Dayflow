@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify
 from flask_cors import CORS
 from config import Config
@@ -15,8 +16,13 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Enable CORS for frontend application (supports http://localhost:3000 and http://localhost:5173)
-    CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
+    # CORS: read allowed origins from env, default to local dev servers
+    allowed_origins_str = os.getenv(
+        "ALLOWED_ORIGINS",
+        "http://localhost:5173,http://localhost:3000"
+    )
+    allowed_origins = [o.strip() for o in allowed_origins_str.split(",") if o.strip()]
+    CORS(app, resources={r"/api/*": {"origins": allowed_origins}}, supports_credentials=True)
 
     # Initialize SQLAlchemy database
     db.init_app(app)
@@ -63,4 +69,5 @@ def create_app():
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    is_dev = os.getenv("FLASK_ENV", "production").lower() == "development"
+    app.run(host='0.0.0.0', port=5000, debug=is_dev)
