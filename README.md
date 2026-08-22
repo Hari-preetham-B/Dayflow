@@ -1,241 +1,227 @@
 <div align="center">
+  <a name="top"></a>
+  <h1>⚡ Dayflow — Human Resource Management System (HRMS)</h1>
+  <p><strong>Every workday, perfectly aligned.</strong></p>
 
-  # ⚡ DAYFLOW HRMS
-  ### *Enterprise Human Resource Management & Operations Platform*
-
-  <p align="center">
-    <a href="#-key-features"><img src="https://img.shields.io/badge/Platform-Enterprise_HRMS-4F46E5?style=for-the-badge&logo=rocket&logoColor=white" alt="Platform"></a>
-    <a href="#-tech-stack"><img src="https://img.shields.io/badge/Frontend-React_18_--_Vite_5-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="Frontend"></a>
-    <a href="#-tech-stack"><img src="https://img.shields.io/badge/Styling-Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind"></a>
-    <a href="#-tech-stack"><img src="https://img.shields.io/badge/Backend-Python_3.13_--_Flask_3-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Backend"></a>
-    <a href="#-tech-stack"><img src="https://img.shields.io/badge/Database-Supabase_Postgres-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase"></a>
+  <p>
+    <img src="https://img.shields.io/badge/React-19.2.8-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19">
+    <img src="https://img.shields.io/badge/Flask-3.0.0-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask 3.0">
+    <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase PostgreSQL">
+    <img src="https://img.shields.io/badge/Vite-8.2.0-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 8">
+    <img src="https://img.shields.io/badge/Tailwind_CSS-4.3.3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS">
+    <img src="https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge&logo=github-actions&logoColor=white" alt="Build Passing">
+    <img src="https://img.shields.io/badge/Made_for-ODOOXNMIT-7C3AED?style=for-the-badge&logo=hackster&logoColor=white" alt="Made for ODOOXNMIT">
   </p>
 
-  <p align="center">
-    <strong>A next-generation, full-stack HR operating system engineered for real-time shift tracking, automated payroll calculation, document management, and workforce analytics.</strong>
+  <p>
+    <a href="https://readme-typing-svg.demolab.com/?lines=Role-based+HR+workflows;Real-time+attendance+tracking;Approval+workflows+that+don%27t+suck;Automated+payroll+computation&font=Inter&size=18&center=true&vCenter=true&width=500&height=40&color=4F46E5">
+      <img src="https://readme-typing-svg.demolab.com/?lines=Role-based+HR+workflows;Real-time+attendance+tracking;Approval+workflows+that+don%27t+suck;Automated+payroll+computation&font=Inter&size=18&center=true&vCenter=true&width=500&height=40&color=4F46E5" alt="Typing SVG">
+    </a>
   </p>
-
-  <p align="center">
-    <a href="#-key-features">✨ Key Features</a> •
-    <a href="#-system-architecture">🏗️ Architecture</a> •
-    <a href="#-module-deep-dive">💡 Deep Dive</a> •
-    <a href="#-permission-matrix">🔐 Permissions</a> •
-    <a href="#-quick-start-guide">🚀 Quick Start</a> •
-    <a href="#-environment-setup">⚙️ Configuration</a>
-  </p>
-
 </div>
 
----
-
-## 🌟 Visual Feature Showcase
-
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <h3 align="center">🔐 Profile & Document Management</h3>
-      <ul>
-        <li><b>JWT Bearer Auth</b> via Supabase with password policy validation.</li>
-        <li><b>Auto-Admin Bootstrapping</b>: First registered user becomes Admin automatically.</li>
-        <li><b>Server Field Whitelisting</b>: Non-admin users cannot edit designation or compensation.</li>
-        <li><b>Cloud Document Locker</b>: Secure document metadata linked to Supabase Storage.</li>
-      </ul>
-    </td>
-    <td width="50%" valign="top">
-      <h3 align="center">⏱️ Attendance & Live Workstation Shift</h3>
-      <ul>
-        <li><b>Live Digital Clock</b> & interactive check-in/check-out timers.</li>
-        <li><b>Automatic Status Tiers</b>:
-          <ul>
-            <li><code>Present</code>: &ge; 7.5 hrs</li>
-            <li><code>Half-day</code>: &ge; 4.0 hrs & &lt; 7.5 hrs</li>
-            <li><code>Absent</code>: Past weekdays without check-in</li>
-            <li><code>Leave</code>: Approved leave days</li>
-          </ul>
-        </li>
-        <li><b>Admin Override Portal</b> for status & timestamp corrections.</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h3 align="center">🏖️ Leave & Time-Off Management</h3>
-      <ul>
-        <li><b>Multi-Tier Leaves</b>: Paid, Sick, and Unpaid leave types.</li>
-        <li><b>Date Overlap Protection</b>: Server blocks overlapping applications.</li>
-        <li><b>Automated Attendance Sync</b>: Approving leave populates weekday attendance.</li>
-        <li><b>Revocation Flow</b>: Reverts attendance logs cleanly upon leave revocation.</li>
-      </ul>
-    </td>
-    <td width="50%" valign="top">
-      <h3 align="center">💵 Payroll, Audit Trails & PDF Slips</h3>
-      <ul>
-        <li><b>Dynamic Formula</b>: <code>Net Pay = Basic + Allowances - Deductions</code>.</li>
-        <li><b>Employee Read-Only Slips</b> & HR compensation management.</li>
-        <li><b>Audit Trail Logging</b>: Timestamped JSON diffs for all salary changes.</li>
-        <li><b>Official PDF Generation</b>: Downloadable salary slips via ReportLab.</li>
-      </ul>
-    </td>
-  </tr>
-</table>
+Dayflow is an enterprise-grade, full-stack Human Resource Management System built to streamline employee operations, role-based access control, profile management, attendance tracking, leave requests, salary administration, in-app notifications, and workforce analytics.
 
 ---
 
-## 🏗️ System Architecture & Data Flow
+## 📸 Demo
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Employee / Admin
-    participant React as Frontend (React + Vite)
-    participant Flask as Backend API (Flask)
-    participant SupabaseAuth as Supabase Auth Server
-    participant Postgres as Supabase Postgres DB
+<details>
+<summary>Click to expand application screen previews</summary>
 
-    User->>React: Submit Credentials / Actions
-    React->>SupabaseAuth: Authenticate & Request JWT Token
-    SupabaseAuth-->>React: Return Session JWT Access Token
-    React->>Flask: HTTP API Request + Bearer JWT Header
-    Flask->>SupabaseAuth: Verify JWT Key & Extract User UUID
-    Flask->>Postgres: Query / Mutate HR Data (SQLAlchemy ORM)
-    Postgres-->>Flask: Return Query Dataset
-    Flask-->>React: JSON Response Payload
-    React-->>User: Render Dynamic Glassmorphic UI State
-```
+<br />
 
-### 📂 Directory Map
+| Screen | Preview |
+| :--- | :--- |
+| **Login / Sign In** | ![Login Screen](assets/screenshot-login.png) <!-- TODO: replace with real screenshot of Login Screen --> |
+| **Employee Dashboard** | ![Employee Dashboard](assets/screenshot-employee-dashboard.png) <!-- TODO: replace with real screenshot of Employee Dashboard --> |
+| **Admin Control Portal** | ![Admin Dashboard](assets/screenshot-admin-dashboard.png) <!-- TODO: replace with real screenshot of Admin Dashboard --> |
+| **Attendance & Shift Management** | ![Attendance Screen](assets/screenshot-attendance.png) <!-- TODO: replace with real screenshot of Attendance Screen --> |
+| **Leave & Time-Off Request** | ![Leave Management](assets/screenshot-leave.png) <!-- TODO: replace with real screenshot of Leave Management Screen --> |
+| **Salary & Payroll Management** | ![Salary Management](assets/screenshot-salary.png) <!-- TODO: replace with real screenshot of Salary & Payroll Screen --> |
+
+</details>
+
+---
+
+## 🌟 Tech Stack
+
+| Layer | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Backend** | ![Python](https://img.shields.io/badge/Python_3.13-3776AB?style=flat-square&logo=python&logoColor=white) ![Flask](https://img.shields.io/badge/Flask_3.0-000000?style=flat-square&logo=flask&logoColor=white) ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy_3.1-D71F00?style=flat-square&logo=sqlalchemy&logoColor=white) | Core REST API backend framework & ORM data access layer |
+| **Database** | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white) | Serverless cloud database instance & Supabase Storage bucket |
+| **Frontend** | ![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black) ![Vite](https://img.shields.io/badge/Vite_8-646CFF?style=flat-square&logo=vite&logoColor=white) ![React Router](https://img.shields.io/badge/React_Router_7-CA4245?style=flat-square&logo=reactrouter&logoColor=white) | Single Page Application (SPA) client architecture & routing |
+| **Styling** | ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS_4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white) ![Lucide Icons](https://img.shields.io/badge/Lucide_Icons-F59E0B?style=flat-square&logo=lucide&logoColor=white) | Tailored HR glassmorphic design system & UI icons |
+| **PDF & Exports** | ![ReportLab](https://img.shields.io/badge/ReportLab_5.0-3776AB?style=flat-square&logo=python&logoColor=white) | Official PDF salary slip generation & streaming CSV exports |
+| **Mailer** | ![Brevo](https://img.shields.io/badge/Brevo_SMTP-0092FF?style=flat-square&logo=brevo&logoColor=white) | Transactional email alert delivery fallback |
+
+---
+
+## 🏗️ Architecture & Project Structure
 
 ```
 Dayflow/
-├── 🐍 backend/                 # Python Flask REST API Service
-│   ├── app.py                 # App initialization, CORS & blueprint loader
-│   ├── config.py              # Environment configuration manager
-│   ├── models.py              # SQLAlchemy ORM Database Schemas
-│   ├── auth_middleware.py     # JWT token verification & role enforcement middleware
-│   ├── routes/                # Modular API Controllers
-│   │   ├── auth_routes.py     # /api/auth (Sync & auto-admin)
-│   │   ├── admin_routes.py    # /api/admin (Directory & promotions)
-│   │   ├── profile_routes.py  # /api/profile (Profiles & docs)
-│   │   ├── attendance_routes.py # /api/attendance (Shifts & overrides)
-│   │   ├── leave_routes.py    # /api/leave (Applications & approvals)
-│   │   ├── salary_routes.py   # /api/salary (Compensation & audit)
-│   │   ├── notification_routes.py # /api/notifications (Alerts & mailer)
-│   │   └── analytics_routes.py # /api/analytics (KPIs, PDF & CSV)
-│   ├── requirements.txt
-│   └── .env
-│
-└── ⚡ frontend/                # React 18 Single Page Application
+├── backend/
+│   ├── app.py                 # Flask app factory, CORS, blueprint registration & health check
+│   ├── config.py              # Configuration manager & database credentials
+│   ├── models.py              # User, EmployeeDocument, Attendance, LeaveRequest, SalaryStructure, SalaryAuditLog, Notification models
+│   ├── auth_middleware.py     # Supabase JWT token verification & role enforcement middleware
+│   ├── routes/
+│   │   ├── auth_routes.py     # Supabase profile sync & auto-admin bootstrap (/api/auth/sync)
+│   │   ├── admin_routes.py    # Admin user directory & role promotion (/api/admin/...)
+│   │   ├── profile_routes.py  # Profile CRUD, role field whitelisting & document management
+│   │   ├── attendance_routes.py # Check-in/out, auto-status derivation, attendance history & admin overrides
+│   │   ├── leave_routes.py    # Leave applications, date overlap validation & approval/revocation flow
+│   │   ├── salary_routes.py   # Employee salary view, admin CRUD, net_pay calculation & audit logs
+│   │   ├── notification_routes.py # In-app notification endpoints & Brevo/SMTP email helper
+│   │   └── analytics_routes.py # Analytics dashboard KPIs, CSV exports & ReportLab PDF generator
+│   ├── requirements.txt       # Backend Python dependencies
+│   └── .env                   # Backend environment variables
+└── frontend/
     ├── src/
-    │   ├── context/AuthContext.jsx # Supabase session & user state provider
-    │   ├── lib/               # API Client, Supabase SDK & storage helpers
-    │   ├── components/        # ProtectedRoute, NotificationDrawer, Spinners
-    │   ├── pages/             # HR Dashboard Views (Admin, Employee, Analytics, etc.)
-    │   └── index.css          # Glassmorphic HR styling system
+    │   ├── context/
+    │   │   └── AuthContext.jsx # Global Supabase Auth & role state provider
+    │   ├── lib/
+    │   │   ├── api.js          # Encapsulated API client for Salary, Notifications, Analytics & Exports
+    │   │   ├── supabase.js     # Supabase JS client initialization
+    │   │   └── supabaseStorage.js # File validation & Supabase Storage upload helper
+    │   ├── components/
+    │   │   ├── ProtectedRoute.jsx  # Route guard with admin role restriction
+    │   │   └── NotificationDrawer.jsx # Header in-app notification drawer with unread counter
+    │   ├── pages/
+    │   │   ├── SignIn.jsx           # Sign in page with specific error messages
+    │   │   ├── SignUp.jsx           # Sign up page with password strength indicator
+    │   │   ├── EmployeeDashboard.jsx# Employee workspace & quick-access cards
+    │   │   ├── AdminDashboard.jsx   # Admin & HR control portal
+    │   │   ├── ProfilePage.jsx      # Role-based profile management & document records
+    │   │   ├── AttendancePage.jsx   # Check-in/out, status derivation & admin overrides
+    │   │   ├── LeavePage.jsx        # Apply for leave, overlap checks & approval table
+    │   │   ├── SalaryPage.jsx       # Read-only employee salary & admin salary management
+    │   │   └── AnalyticsPage.jsx    # Analytics KPIs, date filters, CSV exports & PDF downloads
+    │   ├── App.jsx            # React Router protected routes configuration
+    │   └── index.css          # Tailored HR glassmorphic design system
     ├── package.json
-    └── .env
+    └── .env                   # Frontend environment variables
 ```
 
 ---
 
-## 💡 Module Deep-Dive
+## ⚡ Feature Summary by Phase
 
-<details>
-<summary><b>🔐 1. Authentication & Security Middleware</b></summary>
+<div align="center">
+  <img src="https://img.shields.io/badge/🏆-All_5_Phases_Shipped-brightgreen?style=for-the-badge" alt="All 5 Phases Shipped">
+</div>
+
 <br />
 
-- **JWT Validation**: Every restricted endpoint passes through `@token_required` or `@admin_required` decorators, validating Supabase JWT bearer headers.
-- **Server-Side Whitelisting**: Profile updates strictly enforce allowed fields for employees:
-  - Allowed: `full_name`, `phone`, `address`, `emergency_contact`, `avatar_url`
-  - Blocked: `role`, `department`, `title`, `basic_salary`
-- **Auto-Admin Bootstrapping**: The first user registered on the platform is assigned the `admin` role automatically.
+<details open>
+<summary><b>Phase 0 & 1: Core Foundation & Profile Management</b> <img src="https://img.shields.io/badge/Phase_0_%26_1-100%25_Complete-brightgreen?style=flat-square" alt="Phase 0 & 1 Complete"></summary>
+
+<br />
+
+- **Supabase Authentication**: Standardized JWT bearer token authentication with password policy enforcement.
+- **Auto-Admin Bootstrap**: First user to register automatically becomes `admin`; subsequent registrations default to `employee`.
+- **Server-Side Field Whitelisting**: Profile updates strictly limit non-admins to basic fields (`full_name`, `phone`, `address`, `emergency_contact`, `avatar_url`), ignoring admin-only fields (`basic_salary`, `title`, `department`, `role`).
+- **Document Management**: Multi-file document metadata records linked to Supabase Storage with strict user ownership protection.
+
 </details>
 
 <details>
-<summary><b>⏱️ 2. Attendance & Live Shift Management</b></summary>
+<summary><b>Phase 2: Attendance Management</b> <img src="https://img.shields.io/badge/Phase_2-100%25_Complete-brightgreen?style=flat-square" alt="Phase 2 Complete"></summary>
+
 <br />
 
-- **Live Ticker**: Interactive workstation clock displaying local shift time and duration.
-- **Automated Rules**:
-  - `Present`: Working hours $\ge 7.5\text{ hrs}$
-  - `Half-day`: Working hours $\ge 4.0\text{ hrs}$ and $< 7.5\text{ hrs}$
-  - `Absent`: Auto-computed for past weekdays with zero check-in logs
-  - `Leave`: Auto-populated on approved leave dates
-- **Admin Correction Portal**: HR officers can update check-in/out timestamps and append manual audit notes.
+- **Check-in / Check-out**: Interactive check-in/out buttons with duplicate check-in prevention.
+- **Automatic Status Derivation**:
+  - `Present`: Working hours >= 7.5 hours
+  - `Half-day`: Working hours >= 4.0 and < 7.5 hours
+  - `Absent`: Past working weekdays (Mon–Fri) without check-in
+  - `Leave`: Approved leave days automatically populate as `Leave` status
+- **Admin Overrides**: Admins can edit check-in/out times or manually force status for any employee date.
+
 </details>
 
 <details>
-<summary><b>🏖️ 3. Leave Request & Overlap Guard</b></summary>
+<summary><b>Phase 3: Leave & Time-Off Management</b> <img src="https://img.shields.io/badge/Phase_3-100%25_Complete-brightgreen?style=flat-square" alt="Phase 3 Complete"></summary>
+
 <br />
 
-- **Validation Engine**: Server checks for overlapping date ranges against `Pending` or `Approved` records before creation.
-- **Automatic Attendance Generation**: Approval automatically populates weekday logs as `Leave` status.
-- **Revocation Protocol**: Revoking an approved leave removes auto-generated `Leave` records, reopening the schedule for corrections.
+- **Leave Application**: Employees can apply for `Paid`, `Sick`, or `Unpaid` leave with date ranges and remarks.
+- **Date Overlap Validation**: Server checks and rejects requests overlapping with existing `Pending` or `Approved` leave.
+- **Admin Review Flow**: Admins can approve, reject, or revoke requests. Approving automatically generates `Leave` attendance records for weekdays in range.
+
 </details>
 
 <details>
-<summary><b>💵 4. Payroll, Audit Trails & PDF Slips</b></summary>
+<summary><b>Phase 4: Salary Management</b> <img src="https://img.shields.io/badge/Phase_4-100%25_Complete-brightgreen?style=flat-square" alt="Phase 4 Complete"></summary>
+
 <br />
 
-- **Server Calculation**: `Net Pay = Basic Pay + Allowances - Deductions` calculated on the server to ensure consistency.
-- **Audit Logs**: Maintains JSON diff snapshots capturing actor name, action type (`CREATE`, `UPDATE`, `DELETE`), timestamp, and value changes.
-- **ReportLab PDF Generation**: Generates official PDF salary slips formatted with company branding and detailed payment items.
+- **Employee View**: Read-only breakdown of Basic Pay, Allowances, Deductions, Net Pay, and Effective Date.
+- **Admin Salary CRUD**: Admins can configure compensation structures with automatic server-side `net_pay = basic_pay + allowances - deductions` calculation.
+- **Audit Trail**: Full audit logging of all CREATE, UPDATE, and DELETE actions storing actor details, timestamp, and JSON diffs.
+
 </details>
 
 <details>
-<summary><b>🔔 5. Notifications & Workforce Analytics</b></summary>
+<summary><b>Phase 5: Notifications, Analytics & Final Polish</b> <img src="https://img.shields.io/badge/Phase_5-100%25_Complete-brightgreen?style=flat-square" alt="Phase 5 Complete"></summary>
+
 <br />
 
-- **Notification Drawer**: Header drawer with unread counter badges, animated spinners, and mark-as-read options.
-- **Email Dispatcher**: Integrated Brevo/SMTP mailer for background email dispatch.
-- **Analytics & Exports**: Dashboard KPIs with date-range filters and streaming CSV export support.
+- **In-App & Email Notifications**: Automatic notifications triggered on leave applications (to Admins), leave status updates (to Employee), and document uploads (to Admins). Includes a header drawer component with unread badges and Brevo/SMTP email fallback.
+- **Analytics & Reports Dashboard**: Interactive date-range filters showing organization-wide or personal KPIs for Attendance, Leave requests, and Salary compensation outlays.
+- **ReportLab Salary Slip PDF**: Downloadable official PDF salary slips formatted with employee info, breakdown table, and net take-home pay.
+- **CSV Data Exports**: Export Attendance and Leave data to downloadable CSV files respecting date and role filters.
+
 </details>
 
 ---
 
-## 🔐 Permission Matrix
+## 🔐 Role Permission Matrix
 
-| Operation / Feature | Employee | HR Admin |
-| :--- | :---: | :---: |
-| **Register & Sign In** | ✅ | ✅ |
-| **View Personal Profile & Documents** | ✅ | ✅ |
-| **Edit Personal Contact Information** | ✅ | ✅ |
-| **Modify Role / Designation / Department** | ❌ *(Protected)* | ✅ |
-| **Workstation Check-in / Check-out** | ✅ | ✅ |
-| **Override Employee Shift Logs** | ❌ | ✅ |
-| **Submit Leave Applications** | ✅ | ✅ |
-| **Approve / Reject / Revoke Leaves** | ❌ | ✅ |
-| **View Personal Salary Slip & Net Pay** | ✅ *(Read-Only)* | ✅ |
-| **Configure Salary Structures & Audit Logs** | ❌ | ✅ |
-| **In-App Notifications Drawer** | ✅ *(Personal)* | ✅ *(All System Alerts)* |
-| **Download PDF Salary Slips** | ✅ *(Personal)* | ✅ *(All Employees)* |
-| **Export Attendance & Leave CSVs** | ✅ *(Personal)* | ✅ *(Filtered Directory)* |
+| Feature / Action | Employee | Admin / HR |
+|---|:---:|:---:|
+| Sign Up & Authentication | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) |
+| View Own Profile & Documents | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) |
+| Edit Own Contact Details | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) |
+| Edit Salary / Designation / Role | ![Blocked](https://img.shields.io/badge/%F0%9F%99%85-Server--Blocked-rose?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) |
+| Check-in / Check-out Attendance | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) |
+| Admin Override Attendance | ![Blocked](https://img.shields.io/badge/%F0%9F%99%85-Denied-rose?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) |
+| Submit Leave Request | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) |
+| Approve / Reject / Revoke Leaves | ![Blocked](https://img.shields.io/badge/%F0%9F%99%85-Denied-rose?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) |
+| View Own Salary Breakdown | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Read--Only-blue?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) |
+| Manage Compensation & Audit Logs | ![Blocked](https://img.shields.io/badge/%F0%9F%99%85-Denied-rose?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Allowed-emerald?style=flat-square) |
+| View Notifications & Mark Read | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Own-emerald?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-All-emerald?style=flat-square) |
+| Export Attendance & Leave CSV | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Own-emerald?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-All--Filtered-emerald?style=flat-square) |
+| Download Salary Slip PDF | ![Allowed](https://img.shields.io/badge/%E2%9C%93-Own-emerald?style=flat-square) | ![Allowed](https://img.shields.io/badge/%E2%9C%93-All-emerald?style=flat-square) |
 
 ---
 
-## ⚙️ Environment Setup
+## ⚙️ Environment Configuration
 
 > [!CAUTION]
-> **Credential Security**: Never commit real database credentials or secret keys to public repositories. Use placeholders in configuration files.
+> **Never commit real credentials to this repository.** All values below are placeholders.
+> If a real password was ever committed, rotate it immediately in the Supabase Dashboard → Database → Settings.
 
-### 🔹 Backend Configuration (`backend/.env`)
+### 1. Backend (`backend/.env`)
 ```env
 FLASK_ENV=development
-SECRET_KEY=your_random_flask_secret_key
+SECRET_KEY=change_me_to_a_random_secret
 DATABASE_URL=postgresql://postgres.xxxxxxxxxxxx:YOUR_PASSWORD@aws-0-REGION.pooler.supabase.com:6543/postgres
 SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
 SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
 SUPABASE_SECRET_KEY=your_supabase_secret_key
 ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
 
-# Optional SMTP Settings (Brevo)
+# Brevo SMTP Configuration (Optional)
 SMTP_SERVER=smtp-relay.brevo.com
 SMTP_PORT=587
-BREVO_USER=your_brevo_email
+BREVO_USER=your_brevo_login_email
 BREVO_API_KEY=your_brevo_smtp_key
 SENDER_EMAIL=no-reply@dayflow.com
 ```
 
-### 🔹 Frontend Configuration (`frontend/.env`)
+### 2. Frontend (`frontend/.env`)
 ```env
 VITE_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -244,54 +230,72 @@ VITE_BACKEND_URL=http://localhost:5000
 
 ---
 
-## 🚀 Quick Start Guide
+<div align="center">
+  <a href="#running-the-application-locally">
+    <img src="https://img.shields.io/badge/%E2%9A%A1-Quick_Start-indigo?style=for-the-badge" alt="Quick Start">
+  </a>
+  &nbsp;&nbsp;
+  <a href="#feature-summary-by-phase">
+    <img src="https://img.shields.io/badge/%F0%9F%93%96-Full_Docs-blue?style=for-the-badge" alt="Full Docs">
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://github.com/Hari-preetham-B/Dayflow/issues">
+    <img src="https://img.shields.io/badge/%F0%9F%90%9B-Report_an_Issue-rose?style=for-the-badge" alt="Report an Issue">
+  </a>
+</div>
 
-### Step 1: Launch Backend API
+<br />
+
+## 🚀 Running the Application Locally
+
+### Step 1: Start Backend Server
 ```bash
-# Move to backend directory
+# Navigate to backend directory
 cd backend
 
 # Activate virtual environment (Windows)
 .\.venv\Scripts\activate
 
-# Install requirements
+# Install dependencies
 pip install -r requirements.txt
 
-# Start Flask server
+# Run Flask backend server
 python app.py
 ```
-> 📍 Backend runs on `http://localhost:5000`
-
-### Step 2: Launch Frontend Application
-```bash
-# Open a new terminal in the frontend directory
-cd frontend
-
-# Install node dependencies
-npm install
-
-# Start Vite dev server
-npm run dev
-```
-> 📍 Frontend runs on `http://localhost:5173`
+*Backend runs on `http://localhost:5000` and automatically connects to Supabase Postgres.*
 
 ---
 
-## 🧪 Quality Assurance & Build Checks
-
+### Step 2: Start Frontend Application
 ```bash
-# Run oxlint across frontend files
-npx oxlint
+# Open a new terminal and navigate to frontend directory
+cd frontend
 
-# Run production Vite build
-npm run build
+# Install dependencies
+npm install
 
-# Validate Flask backend startup
-python -c "import app"
+# Start Vite development server
+npm run dev
 ```
+*Frontend runs on `http://localhost:5173`.*
+
+---
+
+## 🧪 Verification & Build Checks
+
+- **Backend Startup Verification**:
+  ```bash
+  python.exe -c "import app"
+  ```
+- **Frontend Production Build**:
+  ```bash
+  npm run build
+  ```
 
 ---
 
 <div align="center">
-  <sub>Designed & Developed for Enterprise Excellence • Powered by Dayflow HR Engine</sub>
+  <p><strong>Dayflow — Human Resource Management System (HRMS)</strong></p>
+  <p>Built with ❤️ for <strong>ODOOXNMIT</strong></p>
+  <p><a href="#top">Back to top ⬆️</a></p>
 </div>
