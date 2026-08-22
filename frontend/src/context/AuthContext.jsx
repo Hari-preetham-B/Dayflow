@@ -162,7 +162,8 @@ export const AuthProvider = ({ children }) => {
     signOut,
     syncBackendUser,
     promoteUserToAdmin,
-    getAuthHeader
+    getAuthHeader,
+    getAuthHeaders: getAuthHeader
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

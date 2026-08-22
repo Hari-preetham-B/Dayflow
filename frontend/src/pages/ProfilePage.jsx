@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { profileApi } from '../lib/api'
 import { uploadFileToStorage, validateFile } from '../lib/supabaseStorage'
 import { 
   User, Mail, Phone, MapPin, ShieldAlert, Briefcase, Calendar, 
@@ -10,7 +11,7 @@ import {
 
 export default function ProfilePage() {
   const { userId } = useParams()
-  const { user: currentUser, getAuthHeaders, isAdmin } = useAuth()
+  const { user: currentUser, getAuthHeader, isAdmin } = useAuth()
   const navigate = useNavigate()
 
   const targetId = userId || currentUser?.id
@@ -65,14 +66,7 @@ export default function ProfilePage() {
     setLoading(true)
     setError(null)
     try {
-      const headers = await getAuthHeaders()
-      const res = await fetch(`http://localhost:5000/api/profile/${targetId}`, { headers })
-      const data = await res.json()
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to fetch profile')
-      }
-
+      const data = await profileApi.getProfile(getAuthHeader, targetId)
       setProfile(data.user)
       populateForm(data.user)
     } catch (err) {
@@ -85,12 +79,8 @@ export default function ProfilePage() {
 
   const fetchManagers = async () => {
     try {
-      const headers = await getAuthHeaders()
-      const res = await fetch('http://localhost:5000/api/employees/managers', { headers })
-      const data = await res.json()
-      if (res.ok) {
-        setManagers(data.managers || [])
-      }
+      const data = await profileApi.getManagers(getAuthHeader)
+      setManagers(data.managers || [])
     } catch (err) {
       console.error('Failed to fetch managers list:', err)
     }
@@ -128,21 +118,7 @@ export default function ProfilePage() {
     setSuccessMsg(null)
 
     try {
-      const headers = await getAuthHeaders()
-      const res = await fetch(`http://localhost:5000/api/profile/${targetId}`, {
-        method: 'PUT',
-        headers: {
-          ...headers,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      })
-
-      const data = await res.json()
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to update profile')
-      }
-
+      const data = await profileApi.updateProfile(getAuthHeader, targetId, formData)
       setProfile(data.user)
       populateForm(data.user)
       setIsEditing(false)
@@ -173,20 +149,10 @@ export default function ProfilePage() {
       const { url } = await uploadFileToStorage(file, 'avatars')
       setFormData(prev => ({ ...prev, avatar_url: url }))
       
-      // Auto-save avatar change to backend
-      const headers = await getAuthHeaders()
-      const res = await fetch(`http://localhost:5000/api/profile/${targetId}`, {
-        method: 'PUT',
-        headers: { ...headers, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, avatar_url: url })
-      })
-
-      const data = await res.json()
-      if (res.ok) {
-        setProfile(data.user)
-        setSuccessMsg('Profile picture updated!')
-        setTimeout(() => setSuccessMsg(null), 3000)
-      }
+      const data = await profileApi.updateProfile(getAuthHeader, targetId, { ...formData, avatar_url: url })
+      setProfile(data.user)
+      setSuccessMsg('Profile picture updated!')
+      setTimeout(() => setSuccessMsg(null), 3000)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -216,24 +182,13 @@ export default function ProfilePage() {
       const { url, name } = await uploadFileToStorage(docFile, 'documents')
       
       // 2. Add document record via backend API
-      const headers = await getAuthHeaders()
-      const res = await fetch(`http://localhost:5000/api/profile/${targetId}/documents`, {
-        method: 'POST',
-        headers: { ...headers, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          document_name: docName || name,
-          document_type: docType,
-          file_url: url,
-          file_size: `${(docFile.size / (1024 * 1024)).toFixed(2)} MB`
-        })
+      await profileApi.uploadDocument(getAuthHeader, targetId, {
+        document_name: docName || name,
+        document_type: docType,
+        file_url: url,
+        file_size: `${(docFile.size / (1024 * 1024)).toFixed(2)} MB`
       })
 
-      const data = await res.json()
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to attach document metadata')
-      }
-
-      // Refresh profile
       fetchProfile()
       setDocFile(null)
       setDocName('')
@@ -251,17 +206,7 @@ export default function ProfilePage() {
     if (!window.confirm('Are you sure you want to delete this document?')) return
 
     try {
-      const headers = await getAuthHeaders()
-      const res = await fetch(`http://localhost:5000/api/profile/${targetId}/documents/${docId}`, {
-        method: 'DELETE',
-        headers
-      })
-
-      const data = await res.json()
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to delete document')
-      }
-
+      await profileApi.deleteDocument(getAuthHeader, targetId, docId)
       fetchProfile()
       setSuccessMsg('Document deleted.')
       setTimeout(() => setSuccessMsg(null), 3000)

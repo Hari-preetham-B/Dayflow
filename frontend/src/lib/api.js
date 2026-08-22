@@ -146,3 +146,24 @@ export const analyticsApi = {
     window.URL.revokeObjectURL(url)
   }
 }
+
+// ============================================================
+// PROFILE & EMPLOYEE API HELPERS
+// ============================================================
+
+export const profileApi = {
+  getProfile: (getAuthHeader, targetId) => 
+    request(`/api/profile/${targetId}`, { method: 'GET' }, getAuthHeader),
+
+  updateProfile: (getAuthHeader, targetId, payload) => 
+    request(`/api/profile/${targetId}`, { method: 'PUT', body: payload }, getAuthHeader),
+
+  getManagers: (getAuthHeader) => 
+    request('/api/employees/managers', { method: 'GET' }, getAuthHeader),
+
+  uploadDocument: (getAuthHeader, targetId, payload) => 
+    request(`/api/profile/${targetId}/documents`, { method: 'POST', body: payload }, getAuthHeader),
+
+  deleteDocument: (getAuthHeader, targetId, docId) => 
+    request(`/api/profile/${targetId}/documents/${docId}`, { method: 'DELETE' }, getAuthHeader)
+}
