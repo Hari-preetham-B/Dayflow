@@ -10,10 +10,20 @@
   }
 
   body {
-    @apply bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-indigo-500 selection:text-white;
+    background-color: #020617;
+    color: #f8fafc;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
     background-image: 
       radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
       radial-gradient(at 100% 100%, rgba(20, 184, 166, 0.06) 0px, transparent 50%);
+  }
+
+  ::selection {
+    background-color: #6366f1;
+    color: #ffffff;
   }
 }
 
