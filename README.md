@@ -1,149 +1,193 @@
-# Dayflow — Human Resource Management System (HRMS)
+<div align="center">
 
-Dayflow is an enterprise-grade, full-stack Human Resource Management System built to streamline employee operations, role-based access control, profile management, attendance tracking, leave requests, salary administration, in-app notifications, and workforce analytics.
+  # ⚡ Dayflow HRMS
+  ### Enterprise-Grade Human Resource Management System
+
+  [![React](https://img.shields.io/badge/Frontend-React_18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+  [![Vite](https://img.shields.io/badge/Bundler-Vite_5-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+  [![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+  [![Python](https://img.shields.io/badge/Backend-Python_3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+  [![Flask](https://img.shields.io/badge/Framework-Flask_3.0-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+  [![Supabase](https://img.shields.io/badge/Database-Supabase_Postgres-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+  [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+
+  <p align="center">
+    <strong>Streamlining workforce operations with real-time attendance tracking, automated payroll computation, role-based access control, and intuitive analytics.</strong>
+  </p>
+
+  <p align="center">
+    <a href="#-key-features">Key Features</a> •
+    <a href="#-tech-stack">Tech Stack</a> •
+    <a href="#-architecture">Architecture</a> •
+    <a href="#-role-permission-matrix">Permissions</a> •
+    <a href="#-quick-start">Quick Start</a> •
+    <a href="#-environment-configuration">Configuration</a>
+  </p>
+
+</div>
 
 ---
 
-## 🌟 Tech Stack
+## 🌟 Overview
 
-- **Backend**: Python 3.13, Flask 3.0, SQLAlchemy ORM, PostgreSQL (`psycopg2-binary`), ReportLab 5.0 (PDF generation), Brevo/SMTP Mailer
-- **Frontend**: React 18, Vite, Tailwind CSS, Lucide Icons, React Router DOM v6
-- **Database**: Supabase PostgreSQL (Live serverless cloud database instance)
-- **Authentication**: Supabase Auth (JWT bearer token validation, password strength policies, auto-admin bootstrapping)
-- **Storage**: Supabase Storage (`employee-documents` bucket)
-- **PDF & Exports**: ReportLab (Salary Slips), CSV streaming exports (Attendance & Leave reports)
+**Dayflow** is an all-in-one, modern HR management platform tailored for growing enterprises and fast-paced teams. Built with a responsive **React 18 + Tailwind CSS** glassmorphic interface and powered by a robust **Flask + Supabase PostgreSQL** backend, Dayflow replaces clunky legacy HR software with a seamless, high-performance experience.
+
+> [!TIP]
+> **Live Auto-Admin Bootstrap**: The very first user registering on a fresh Dayflow instance automatically receives **Admin / HR Officer** privileges, granting instant access to employee management, attendance overrides, and payroll setup.
 
 ---
 
-## 🏗️ Architecture & Project Structure
+## ✨ Key Features
+
+| Feature Module | Capabilities & Highlights |
+| :--- | :--- |
+| 🔐 **Authentication & Security** | Supabase Auth with JWT bearer validation, password strength indicators, and server-side field whitelisting. |
+| 👤 **Profile & Documents** | Comprehensive employee records, document uploads linked to Supabase Storage, emergency contacts, and designation tracking. |
+| ⏱️ **Attendance & Shifts** | Real-time workstation check-in/out, live shift ticker, auto-status derivation (`Present`, `Half-day`, `Absent`, `Leave`), and admin correction tools. |
+| 🏖️ **Leave & Time-Off** | Apply for Paid/Sick/Unpaid leave, automatic date-overlap guard, approval workflow, and weekday attendance auto-population. |
+| 💵 **Salary & Compensation** | Dynamic net-pay calculator (`basic + allowances - deductions`), read-only employee slips, audit logging, and ReportLab PDF downloads. |
+| 🔔 **Notifications & Alerts** | Real-time header drawer with unread counters, automated event triggers, and Brevo/SMTP email fallback. |
+| 📊 **Workforce Analytics** | Executive dashboard KPIs, attendance breakdown charts, date-range filters, and streaming CSV data exports. |
+
+---
+
+## 🏗️ Architecture
 
 ```
 Dayflow/
-├── backend/
-│   ├── app.py                 # Flask app factory, CORS, blueprint registration & health check
-│   ├── config.py              # Configuration manager & database credentials
-│   ├── models.py              # User, EmployeeDocument, Attendance, LeaveRequest, SalaryStructure, SalaryAuditLog, Notification models
-│   ├── auth_middleware.py     # Supabase JWT token verification & role enforcement middleware
-│   ├── routes/
-│   │   ├── auth_routes.py     # Supabase profile sync & auto-admin bootstrap (/api/auth/sync)
-│   │   ├── admin_routes.py    # Admin user directory & role promotion (/api/admin/...)
-│   │   ├── profile_routes.py  # Profile CRUD, role field whitelisting & document management
-│   │   ├── attendance_routes.py # Check-in/out, auto-status derivation, attendance history & admin overrides
-│   │   ├── leave_routes.py    # Leave applications, date overlap validation & approval/revocation flow
-│   │   ├── salary_routes.py   # Employee salary view, admin CRUD, net_pay calculation & audit logs
-│   │   ├── notification_routes.py # In-app notification endpoints & Brevo/SMTP email helper
-│   │   └── analytics_routes.py # Analytics dashboard KPIs, CSV exports & ReportLab PDF generator
-│   ├── requirements.txt       # Backend Python dependencies
-│   └── .env                   # Backend environment variables
-└── frontend/
+├── 🐍 backend/
+│   ├── app.py                 # Flask app factory, CORS & blueprint registration
+│   ├── config.py              # Configuration & database connections
+│   ├── models.py              # SQLAlchemy ORM Data Models
+│   ├── auth_middleware.py     # Supabase JWT token verification & role enforcement
+│   ├── routes/                # Modular REST API Endpoint Blueprints
+│   │   ├── auth_routes.py     # Profile synchronization & auto-admin bootstrap
+│   │   ├── admin_routes.py    # Admin directory & role promotion
+│   │   ├── profile_routes.py  # Profile CRUD & document metadata
+│   │   ├── attendance_routes.py # Check-in/out & shift overrides
+│   │   ├── leave_routes.py    # Applications & approval workflows
+│   │   ├── salary_routes.py   # Compensation CRUD & audit trails
+│   │   ├── notification_routes.py # In-app alerts & SMTP mailer
+│   │   └── analytics_routes.py # Dashboard KPIs, CSV exports & PDF generation
+│   ├── requirements.txt
+│   └── .env
+│
+└── ⚡ frontend/
     ├── src/
     │   ├── context/
-    │   │   └── AuthContext.jsx # Global Supabase Auth & role state provider
+    │   │   └── AuthContext.jsx # Global Supabase session & role context
     │   ├── lib/
-    │   │   ├── api.js          # Encapsulated API client for Salary, Notifications, Analytics & Exports
-    │   │   ├── supabase.js     # Supabase JS client initialization
-    │   │   └── supabaseStorage.js # File validation & Supabase Storage upload helper
-    │   ├── components/
-    │   │   ├── ProtectedRoute.jsx  # Route guard with admin role restriction
-    │   │   └── NotificationDrawer.jsx # Header in-app notification drawer with unread counter
-    │   ├── pages/
-    │   │   ├── SignIn.jsx           # Sign in page with specific error messages
-    │   │   ├── SignUp.jsx           # Sign up page with password strength indicator
-    │   │   ├── EmployeeDashboard.jsx# Employee workspace & quick-access cards
-    │   │   ├── AdminDashboard.jsx   # Admin & HR control portal
-    │   │   ├── ProfilePage.jsx      # Role-based profile management & document records
-    │   │   ├── AttendancePage.jsx   # Check-in/out, status derivation & admin overrides
-    │   │   ├── LeavePage.jsx        # Apply for leave, overlap checks & approval table
-    │   │   ├── SalaryPage.jsx       # Read-only employee salary & admin salary management
-    │   │   └── AnalyticsPage.jsx    # Analytics KPIs, date filters, CSV exports & PDF downloads
-    │   ├── App.jsx            # React Router protected routes configuration
+    │   │   ├── api.js          # Unified API service layer
+    │   │   └── supabase.js     # Supabase client initialization
+    │   ├── components/         # Protected routes, drawers, spinners
+    │   ├── pages/              # Responsive HR dashboards & module views
     │   └── index.css          # Tailored HR glassmorphic design system
     ├── package.json
-    └── .env                   # Frontend environment variables
+    └── .env
 ```
 
 ---
 
-## ⚡ Feature Summary by Phase
+## 💡 Module Deep-Dive
 
-### Phase 0 & 1: Core Foundation & Profile Management
-- **Supabase Authentication**: Standardized JWT bearer token authentication with password policy enforcement.
-- **Auto-Admin Bootstrap**: First user to register automatically becomes `admin`; subsequent registrations default to `employee`.
-- **Server-Side Field Whitelisting**: Profile updates strictly limit non-admins to basic fields (`full_name`, `phone`, `address`, `emergency_contact`, `avatar_url`), ignoring admin-only fields (`basic_salary`, `title`, `department`, `role`).
-- **Document Management**: Multi-file document metadata records linked to Supabase Storage with strict user ownership protection.
+<details>
+<summary>🔍 <strong>1. Profile & Employee Document Management</strong></summary>
 
-### Phase 2: Attendance Management
-- **Check-in / Check-out**: Interactive check-in/out buttons with duplicate check-in prevention.
-- **Automatic Status Derivation**:
-  - `Present`: Working hours >= 7.5 hours
-  - `Half-day`: Working hours >= 4.0 and < 7.5 hours
-  - `Absent`: Past working weekdays (Mon–Fri) without check-in
-  - `Leave`: Approved leave days automatically populate as `Leave` status
-- **Admin Overrides**: Admins can edit check-in/out times or manually force status for any employee date.
+<br />
 
-### Phase 3: Leave & Time-Off Management
-- **Leave Application**: Employees can apply for `Paid`, `Sick`, or `Unpaid` leave with date ranges and remarks.
-- **Date Overlap Validation**: Server checks and rejects requests overlapping with existing `Pending` or `Approved` leave.
-- **Admin Review Flow**: Admins can approve, reject, or revoke requests. Approving automatically generates `Leave` attendance records for weekdays in range.
+- **Role-Based Security**: Non-admin users are restricted to editing basic contact information (`full_name`, `phone`, `address`, `emergency_contact`, `avatar_url`). Sensitive fields (`title`, `department`, `role`, `basic_salary`) are strictly protected by server-side whitelisting.
+- **Document Locker**: Upload and view official employee documents (IDs, offer letters, contracts) backed by Supabase Storage with user-level isolation.
+</details>
 
-### Phase 4: Salary Management
-- **Employee View**: Read-only breakdown of Basic Pay, Allowances, Deductions, Net Pay, and Effective Date.
-- **Admin Salary CRUD**: Admins can configure compensation structures with automatic server-side `net_pay = basic_pay + allowances - deductions` calculation.
-- **Audit Trail**: Full audit logging of all CREATE, UPDATE, and DELETE actions storing actor details, timestamp, and JSON diffs.
+<details>
+<summary>⏱️ <strong>2. Automated Shift & Attendance Tracking</strong></summary>
 
-### Phase 5: Notifications, Analytics & Final Polish
-- **In-App & Email Notifications**: Automatic notifications triggered on leave applications (to Admins), leave status updates (to Employee), and document uploads (to Admins). Includes a header drawer component with unread badges and Brevo/SMTP email fallback.
-- **Analytics & Reports Dashboard**: Interactive date-range filters showing organization-wide or personal KPIs for Attendance, Leave requests, and Salary compensation outlays.
-- **ReportLab Salary Slip PDF**: Downloadable official PDF salary slips formatted with employee info, breakdown table, and net take-home pay.
-- **CSV Data Exports**: Export Attendance and Leave data to downloadable CSV files respecting date and role filters.
+<br />
+
+- **Live Shift Ticker**: Displays a real-time digital clock and workstation shift duration.
+- **Shift Thresholds**:
+  - `Present`: Working hours $\ge 7.5\text{ hours}$
+  - `Half-day`: Working hours $\ge 4.0\text{ hours}$ and $< 7.5\text{ hours}$
+  - `Absent`: Past weekdays without check-in activity
+  - `Leave`: Approved time-off days auto-marked
+- **Admin Correction Portal**: HR administrators can manually override check-in timestamps, status codes, and attach audit notes for edge cases.
+</details>
+
+<details>
+<summary>🏖️ <strong>3. Leave Management & Approval Workflows</strong></summary>
+
+<br />
+
+- **Smart Overlap Prevention**: The API validates application dates to prevent double-booking against existing `Pending` or `Approved` requests.
+- **Automated Sync**: Approving a leave application automatically populates weekday attendance logs for the entire date range with `Leave` status.
+- **Revocation Safety**: Admins can revoke approved leaves to revert auto-generated attendance logs.
+</details>
+
+<details>
+<summary>💵 <strong>4. Payroll, Audit Logs & PDF Generation</strong></summary>
+
+<br />
+
+- **Dynamic Net Pay**: Server-calculated formula: `Net Pay = Basic Pay + Allowances - Deductions`.
+- **Complete Audit Trail**: Every salary update, addition, or deletion creates a timestamped JSON diff log containing the actor details and previous vs. new values.
+- **Official PDF Slips**: Generate printable salary slips powered by ReportLab with custom styling and take-home pay breakdowns.
+</details>
+
+<details>
+<summary>🔔 <strong>5. In-App Notifications & Email Alerts</strong></summary>
+
+<br />
+
+- **Header Notification Drawer**: Interactive dropdown with unread badge counter, animated loading states, and "Mark All as Read" capabilities.
+- **Brevo/SMTP Integration**: Automatic background email alerts for critical events (leave applications submitted, leave status decided, documents uploaded).
+</details>
 
 ---
 
 ## 🔐 Role Permission Matrix
 
-| Feature / Action | Employee | Admin / HR |
-|---|:---:|:---:|
-| Sign Up & Authentication | ✅ | ✅ |
-| View Own Profile & Documents | ✅ | ✅ |
-| Edit Own Contact Details | ✅ | ✅ |
-| Edit Salary / Designation / Role | ❌ (Server-blocked) | ✅ |
-| Check-in / Check-out Attendance | ✅ | ✅ |
-| Admin Override Attendance | ❌ | ✅ |
-| Submit Leave Request | ✅ | ✅ |
-| Approve / Reject / Revoke Leaves | ❌ | ✅ |
-| View Own Salary Breakdown | ✅ (Read-only) | ✅ |
-| Manage Compensation & Audit Logs | ❌ | ✅ |
-| View Notifications & Mark Read | ✅ (Own) | ✅ (All & Admin Alerts) |
-| Export Attendance & Leave CSV | ✅ (Own records) | ✅ (All records / Filtered) |
-| Download Salary Slip PDF | ✅ (Own slip) | ✅ (All employees) |
+| Feature / Action | Employee | Admin / HR Officer |
+| :--- | :---: | :---: |
+| **Sign Up & Account Creation** | ✅ | ✅ |
+| **View Personal Profile & Docs** | ✅ | ✅ |
+| **Edit Personal Contact Details** | ✅ | ✅ |
+| **Edit Designation / Role / Department** | ❌ *(Blocked)* | ✅ |
+| **Workstation Check-in / Check-out** | ✅ | ✅ |
+| **Override Employee Shift Logs** | ❌ | ✅ |
+| **Apply for Leave** | ✅ | ✅ |
+| **Approve / Reject / Revoke Leaves** | ❌ | ✅ |
+| **View Own Compensation Breakdown** | ✅ *(Read-Only)* | ✅ |
+| **Manage Employee Salaries & View Audits** | ❌ | ✅ |
+| **View System Notifications** | ✅ *(Personal)* | ✅ *(All & Admin Alerts)* |
+| **Export CSV Reports** | ✅ *(Personal)* | ✅ *(Filtered Directory)* |
+| **Download PDF Salary Slip** | ✅ *(Personal)* | ✅ *(All Employees)* |
 
 ---
 
 ## ⚙️ Environment Configuration
 
 > [!CAUTION]
-> **Never commit real credentials to this repository.** All values below are placeholders.
-> If a real password was ever committed, rotate it immediately in the Supabase Dashboard → Database → Settings.
+> **Keep credentials secure!** Never commit production secrets or actual connection strings to public repositories. Use placeholders in template files.
 
-### 1. Backend (`backend/.env`)
+### 1. Backend Configuration (`backend/.env`)
 ```env
 FLASK_ENV=development
-SECRET_KEY=change_me_to_a_random_secret
+SECRET_KEY=your_custom_flask_secret_key
 DATABASE_URL=postgresql://postgres.xxxxxxxxxxxx:YOUR_PASSWORD@aws-0-REGION.pooler.supabase.com:6543/postgres
 SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
 SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
 SUPABASE_SECRET_KEY=your_supabase_secret_key
 ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
 
-# Brevo SMTP Configuration (Optional)
+# Optional Brevo/SMTP Mailer
 SMTP_SERVER=smtp-relay.brevo.com
 SMTP_PORT=587
-BREVO_USER=your_brevo_login_email
+BREVO_USER=your_brevo_email
 BREVO_API_KEY=your_brevo_smtp_key
 SENDER_EMAIL=no-reply@dayflow.com
 ```
 
-### 2. Frontend (`frontend/.env`)
+### 2. Frontend Configuration (`frontend/.env`)
 ```env
 VITE_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -152,9 +196,9 @@ VITE_BACKEND_URL=http://localhost:5000
 
 ---
 
-## 🚀 Running the Application Locally
+## 🚀 Quick Start
 
-### Step 1: Start Backend Server
+### 1. Start Backend Server
 ```bash
 # Navigate to backend directory
 cd backend
@@ -165,35 +209,43 @@ cd backend
 # Install dependencies
 pip install -r requirements.txt
 
-# Run Flask backend server
+# Launch Flask backend
 python app.py
 ```
-*Backend runs on `http://localhost:5000` and automatically connects to Supabase Postgres.*
+> Backend starts on `http://localhost:5000`
 
----
-
-### Step 2: Start Frontend Application
+### 2. Start Frontend App
 ```bash
 # Open a new terminal and navigate to frontend directory
 cd frontend
 
-# Install dependencies
+# Install packages
 npm install
 
-# Start Vite development server
+# Run Vite dev server
 npm run dev
 ```
-*Frontend runs on `http://localhost:5173`.*
+> Frontend starts on `http://localhost:5173`
 
 ---
 
-## 🧪 Verification & Build Checks
+## 🧪 Build & Quality Verification
 
-- **Backend Startup Verification**:
+- **Lint Check**:
   ```bash
-  python.exe -c "import app"
+  npx oxlint
   ```
 - **Frontend Production Build**:
   ```bash
   npm run build
   ```
+- **Backend Import Verification**:
+  ```bash
+  python -c "import app"
+  ```
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ for Modern HR Teams by Dayflow System Engineers</sub>
+</div>
