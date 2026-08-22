@@ -142,6 +142,14 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const getAuthHeader = async () => {
+    const currentSession = session || (await supabase.auth.getSession()).data.session
+    if (currentSession?.access_token) {
+      return { Authorization: `Bearer ${currentSession.access_token}` }
+    }
+    return {}
+  }
+
   const value = {
     user,
     session,
@@ -153,7 +161,8 @@ export const AuthProvider = ({ children }) => {
     signIn,
     signOut,
     syncBackendUser,
-    promoteUserToAdmin
+    promoteUserToAdmin,
+    getAuthHeader
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
