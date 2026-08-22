@@ -188,3 +188,41 @@ class Attendance(db.Model):
             'created_at': self.created_at.isoformat() if self.created_at else None
         }
 
+
+class LeaveRequest(db.Model):
+    __tablename__ = 'leave_requests'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.String(100), db.ForeignKey('users.id'), nullable=False)
+    leave_type = db.Column(db.String(50), nullable=False)  # 'Paid', 'Sick', 'Unpaid'
+    start_date = db.Column(db.String(20), nullable=False)   # 'YYYY-MM-DD'
+    end_date = db.Column(db.String(20), nullable=False)     # 'YYYY-MM-DD'
+    remarks = db.Column(db.Text, nullable=True)
+    status = db.Column(db.String(50), nullable=False, default='Pending')  # 'Pending', 'Approved', 'Rejected', 'Revoked'
+    admin_comment = db.Column(db.Text, nullable=True)
+    reviewed_by = db.Column(db.String(100), db.ForeignKey('users.id'), nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    user = db.relationship('User', foreign_keys=[user_id], backref=db.backref('leave_requests', lazy=True))
+    reviewer = db.relationship('User', foreign_keys=[reviewed_by])
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'user_name': self.user.full_name or self.user.email if self.user else None,
+            'employee_id': self.user.employee_id if self.user else None,
+            'department': self.user.department if self.user else None,
+            'leave_type': self.leave_type,
+            'start_date': self.start_date,
+            'end_date': self.end_date,
+            'remarks': self.remarks,
+            'status': self.status,
+            'admin_comment': self.admin_comment,
+            'reviewed_by': self.reviewed_by,
+            'reviewer_name': self.reviewer.full_name if self.reviewer else None,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
+        }
+
