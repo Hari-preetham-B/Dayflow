@@ -204,14 +204,14 @@ def seed_database():
                         user_id=u.id,
                         document_name=f"{u.full_name or 'Employee'}_Government_ID.pdf",
                         document_type="ID Proof",
-                        file_url="https://chvbqkggxbyvplfymumr.supabase.co/storage/v1/object/public/employee-documents/sample_id.pdf",
+                        file_url="https://your-project-ref.supabase.co/storage/v1/object/public/employee-documents/sample_id.pdf",
                         file_size="1.4 MB"
                     ),
                     EmployeeDocument(
                         user_id=u.id,
                         document_name=f"{u.full_name or 'Employee'}_Employment_Offer.pdf",
                         document_type="Offer Letter",
-                        file_url="https://chvbqkggxbyvplfymumr.supabase.co/storage/v1/object/public/employee-documents/sample_offer.pdf",
+                        file_url="https://your-project-ref.supabase.co/storage/v1/object/public/employee-documents/sample_offer.pdf",
                         file_size="2.1 MB"
                     )
                 ]
@@ -308,15 +308,14 @@ def seed_database():
             if u:
                 exists = LeaveRequest.query.filter_by(user_id=u.id, start_date=l_info["start"]).first()
                 if not exists:
-                    lr = LeaveRequest(
-                        user_id=u.id,
-                        leave_type=l_info["type"],
-                        start_date=l_info["start"],
-                        end_date=l_info["end"],
-                        remarks=l_info["remarks"],
-                        status=l_info["status"],
-                        admin_comment=l_info.get("admin_comment")
-                    )
+                    lr = LeaveRequest()
+                    lr.user_id = u.id
+                    lr.leave_type = l_info["type"]
+                    lr.start_date = l_info["start"]
+                    lr.end_date = l_info["end"]
+                    lr.remarks = l_info["remarks"]
+                    lr.status = l_info["status"]
+                    lr.admin_comment = l_info.get("admin_comment")
                     db.session.add(lr)
                     print(f"  [LEAVE] Created {l_info['status']} {l_info['type']} leave for {u.full_name}")
         db.session.commit()

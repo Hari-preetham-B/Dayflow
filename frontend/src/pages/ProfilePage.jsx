@@ -4,9 +4,9 @@ import { useAuth } from '../context/AuthContext'
 import { profileApi } from '../lib/api'
 import { uploadFileToStorage, validateFile } from '../lib/supabaseStorage'
 import { 
-  User, Mail, Phone, MapPin, ShieldAlert, Briefcase, Calendar, 
+  User, Mail, Phone, ShieldAlert, Briefcase, 
   DollarSign, FileText, Upload, Trash2, Edit3, Save, X, ArrowLeft,
-  CheckCircle2, Users, Building, Shield, ExternalLink, Lock
+  CheckCircle2, Shield, ExternalLink, Lock
 } from 'lucide-react'
 
 export default function ProfilePage() {

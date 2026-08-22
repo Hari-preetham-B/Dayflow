@@ -9,7 +9,8 @@ import {
   FileText,
   DollarSign,
   Info,
-  Sparkles
+  Sparkles,
+  Loader2
 } from 'lucide-react'
 
 export default function NotificationDrawer() {
@@ -131,7 +132,12 @@ export default function NotificationDrawer() {
 
           {/* List Content */}
           <div className="max-h-80 overflow-y-auto divide-y divide-slate-800/60">
-            {notifications.length === 0 ? (
+            {loading && notifications.length === 0 ? (
+              <div className="p-8 text-center text-slate-500 text-xs space-y-2 flex flex-col items-center justify-center">
+                <Loader2 className="w-6 h-6 text-emerald-400 animate-spin" />
+                <p className="font-medium text-slate-400">Loading notifications...</p>
+              </div>
+            ) : notifications.length === 0 ? (
               <div className="p-8 text-center text-slate-500 text-xs space-y-2">
                 <Bell className="w-8 h-8 text-slate-700 mx-auto" />
                 <p className="font-medium">No notifications yet</p>
