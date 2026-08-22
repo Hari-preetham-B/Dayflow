@@ -226,3 +226,82 @@ class LeaveRequest(db.Model):
             'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
 
+
+class SalaryStructure(db.Model):
+    __tablename__ = 'salary_structures'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.String(100), db.ForeignKey('users.id'), unique=True, nullable=False)
+    basic_pay = db.Column(db.Float, nullable=False, default=0.0)
+    allowances = db.Column(db.Float, nullable=False, default=0.0)
+    deductions = db.Column(db.Float, nullable=False, default=0.0)
+    net_pay = db.Column(db.Float, nullable=False, default=0.0)
+    effective_date = db.Column(db.String(20), nullable=False, default='2024-01-01')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    user = db.relationship('User', backref=db.backref('salary_structure', uselist=False, lazy=True))
+
+    def __init__(self, user_id=None, basic_pay=0.0, allowances=0.0, deductions=0.0, 
+                 effective_date='2024-01-01', created_at=None, **kwargs):
+        super(SalaryStructure, self).__init__(**kwargs)
+        if user_id is not None: self.user_id = user_id
+        self.basic_pay = float(basic_pay)
+        self.allowances = float(allowances)
+        self.deductions = float(deductions)
+        self.net_pay = float(self.basic_pay + self.allowances - self.deductions)
+        self.effective_date = effective_date
+        if created_at is not None: self.created_at = created_at
+
+    def calculate_net_pay(self):
+        self.net_pay = float(self.basic_pay + self.allowances - self.deductions)
+        return self.net_pay
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'user_name': self.user.full_name or self.user.email if self.user else None,
+            'employee_id': self.user.employee_id if self.user else None,
+            'department': self.user.department if self.user else None,
+            'basic_pay': self.basic_pay,
+            'allowances': self.allowances,
+            'deductions': self.deductions,
+            'net_pay': self.net_pay,
+            'effective_date': self.effective_date,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
+        }
+
+
+class SalaryAuditLog(db.Model):
+    __tablename__ = 'salary_audit_logs'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    salary_structure_id = db.Column(db.Integer, nullable=True)
+    user_id = db.Column(db.String(100), db.ForeignKey('users.id'), nullable=False)
+    changed_by = db.Column(db.String(100), db.ForeignKey('users.id'), nullable=False)
+    action = db.Column(db.String(50), nullable=False)  # 'CREATE', 'UPDATE', 'DELETE'
+    old_values = db.Column(db.Text, nullable=True)
+    new_values = db.Column(db.Text, nullable=True)
+    changed_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship('User', foreign_keys=[user_id], backref=db.backref('salary_audits', lazy=True))
+    actor = db.relationship('User', foreign_keys=[changed_by])
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'salary_structure_id': self.salary_structure_id,
+            'user_id': self.user_id,
+            'user_name': self.user.full_name or self.user.email if self.user else None,
+            'employee_id': self.user.employee_id if self.user else None,
+            'changed_by': self.changed_by,
+            'changed_by_name': self.actor.full_name or self.actor.email if self.actor else None,
+            'action': self.action,
+            'old_values': self.old_values,
+            'new_values': self.new_values,
+            'changed_at': self.changed_at.isoformat() if self.changed_at else None
+        }
+
+
